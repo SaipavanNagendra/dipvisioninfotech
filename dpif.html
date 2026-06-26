@@ -1,0 +1,1639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dipvision Infotech - Digital Solutions</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #0d1b2e; --teal: #0ea5c8; --teal-dark: #0d8fad; --teal-light: #22d3ee;
+      --white: #ffffff; --gray-50: #f7f9fc; --gray-100: #f0f4f8; --gray-200: #e2e8f0;
+      --gray-400: #94a3b8; --gray-500: #64748b; --gray-700: #334155; --gray-900: #0f172a;
+    }
+    html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+    body { font-family: 'Inter', sans-serif; color: #1a1a2e; background: white; overflow-x: hidden; }
+
+    /* ── NAVBAR ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      background: rgba(10,20,40,0.97); backdrop-filter: blur(12px);
+      height: 72px; padding: 0 48px;
+      display: flex; align-items: center; gap: 36px;
+    }
+    .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; flex-shrink: 0; }
+    .nav-logo-icon {
+      width: 42px; height: 42px; border-radius: 50%;
+      background: linear-gradient(135deg, #0c2d4a, #0ea5c8); border: 2px solid var(--teal);
+      display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
+    }
+    .nav-logo-text .brand { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 1.1rem; color: var(--teal); }
+    .nav-logo-text .sub { font-size: 0.68rem; color: rgba(255,255,255,0.55); margin-top: 1px; }
+    .nav-links-center { display: flex; align-items: center; gap: 28px; list-style: none;margin-left: 450px; }
+    .nav-links-center a { color: rgba(255,255,255,0.85); text-decoration: none; font-size: 0.88rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links-center a:hover { color: var(--teal); }
+    .nav-right { display: flex; align-items: center; gap: 10px; position: relative; margin-left: auto; flex-shrink: 0; }
+    .lang-btn {
+      display: flex; align-items: center; gap: 8px;
+      border: 1.5px solid rgba(255,255,255,0.3); border-radius: 8px;
+      padding: 7px 14px; color: rgba(255,255,255,0.85); font-size: 0.82rem;
+      cursor: pointer; background: rgba(255,255,255,0.05);
+      font-family: 'Inter', sans-serif; font-weight: 500; transition: border-color 0.2s; white-space: nowrap;
+    }
+    .lang-btn:hover { border-color: var(--teal); color: var(--teal); }
+    .lang-arrow { font-size: 0.6rem; transition: transform 0.2s; }
+    .lang-btn.open .lang-arrow { transform: rotate(180deg); }
+    .lang-dropdown {
+      display: none; position: absolute; top: calc(100% + 8px); right: 52px;
+      background: #0d1f38; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1);
+      min-width: 200px; z-index: 2000; box-shadow: 0 16px 48px rgba(0,0,0,0.4); overflow: hidden;
+    }
+    .lang-dropdown.open { display: block; }
+    .lang-item {
+      display: flex; align-items: center; gap: 12px; padding: 11px 18px; cursor: pointer;
+      transition: background 0.15s; border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .lang-item:last-child { border-bottom: none; }
+    .lang-item:hover { background: rgba(14,165,200,0.15); }
+    .lang-item.active { background: rgba(14,165,200,0.12); }
+    .lang-code { font-size: 0.68rem; font-weight: 700; color: var(--teal); background: rgba(14,165,200,0.15); border-radius: 4px; padding: 2px 6px; min-width: 28px; text-align: center; }
+    .lang-name { font-size: 0.85rem; color: rgba(255,255,255,0.85); font-weight: 500; }
+    .btn-signin {
+      background: var(--teal); color: white; border: none; border-radius: 8px;
+      padding: 8px 18px; font-size: 0.82rem; font-weight: 600; cursor: pointer;
+      font-family: 'Inter', sans-serif; transition: background 0.2s; white-space: nowrap;
+    }
+    .btn-signin:hover { background: var(--teal-dark); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: white; border-radius: 2px; }
+
+    /* ── HERO ── */
+    .hero { min-height: 100vh; background: #050d1a; display: flex; align-items: center; justify-content: center; text-align: center; padding: 120px 2rem 80px; position: relative; overflow: hidden; }
+    canvas#network { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .hero-content { position: relative; z-index: 2; max-width: 900px; }
+    .hero h1 { font-family: 'Poppins', sans-serif; font-size: clamp(2.8rem, 6vw, 4.5rem); font-weight: 800; color: var(--teal); line-height: 1.1; margin-bottom: 24px; }
+    .hero-sub { font-size: 1.1rem; color: rgba(255,255,255,0.8); margin-bottom: 44px; line-height: 1.6; }
+    .hero-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary { background: var(--teal); color: white; padding: 15px 36px; border-radius: 50px; font-weight: 600; font-size: 0.95rem; text-decoration: none; transition: background 0.2s, transform 0.2s; }
+    .btn-primary:hover { background: var(--teal-dark); transform: translateY(-2px); }
+    .btn-outline-hero { background: transparent; color: white; border: 1.5px solid rgba(255,255,255,0.5); padding: 15px 36px; border-radius: 50px; font-weight: 500; font-size: 0.95rem; text-decoration: none; transition: border-color 0.2s, color 0.2s; }
+    .btn-outline-hero:hover { border-color: var(--teal); color: var(--teal); }
+
+    /* ── SECTIONS ── */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    section { padding: 80px 0; }
+    .section-title { font-family: 'Poppins', sans-serif; font-size: clamp(1.8rem, 3vw, 2.5rem); font-weight: 700; color: var(--teal); text-align: center; margin-bottom: 10px; }
+    .section-subtitle { text-align: center; color: var(--gray-500); font-size: 0.95rem; line-height: 1.7; max-width: 640px; margin: 0 auto 40px; }
+    .underline-bar { width: 60px; height: 3px; background: var(--teal); border-radius: 2px; margin: 12px auto 40px; }
+
+    /* ── ABOUT ── */
+    .about { background: white; }
+    .about-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+    .about h2 { font-family: 'Poppins', sans-serif; font-size: 2rem; font-weight: 700; color: var(--teal); margin-bottom: 8px; text-align: left; }
+    .about-tagline { font-style: italic; color: var(--gray-500); margin-bottom: 28px; font-size: 0.95rem; }
+    .about-body p { color: var(--gray-700); line-height: 1.8; margin-bottom: 18px; font-size: 0.95rem; }
+    .about-body p span.hl { color: var(--teal); font-weight: 500; }
+    .about-closing { font-weight: 700; color: var(--teal) !important; }
+    .about-img-box { background: white; border: 1px solid var(--gray-200); border-radius: 16px; overflow: hidden; box-shadow: 0 4px 32px rgba(0,0,0,0.06); display: flex; align-items: center; justify-content: center; min-height: 380px; padding: 32px; }
+
+    /* ── SERVICES ── */
+    .services { background: var(--gray-50); }
+    .services-list { display: flex; flex-direction: column; gap: 80px; margin-top: 40px; }
+    .service-row { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+    .service-row.reverse { direction: rtl; }
+    .service-row.reverse > * { direction: ltr; }
+    .service-text h3 { font-family: 'Poppins', sans-serif; font-size: 1.5rem; font-weight: 700; color: var(--teal); margin-bottom: 16px; }
+    .service-text p { color: var(--gray-700); line-height: 1.8; font-size: 0.95rem; }
+    .service-img-box { background: white; border-radius: 16px; box-shadow: 0 4px 32px rgba(0,0,0,0.07); display: flex; align-items: center; justify-content: center; padding: 32px; min-height: 280px; }
+    .service-img-box.teal-bg { background: linear-gradient(135deg, #e0f7fa, #b2ebf2); }
+    .service-img-box.blue-bg { background: linear-gradient(135deg, #eff6ff, #dbeafe); }
+    .service-img-box.green-bg { background: linear-gradient(135deg, #f0fdf4, #dcfce7); }
+    .service-img-box.purple-bg { background: linear-gradient(135deg, #faf5ff, #ede9fe); }
+    .service-img-box.orange-bg { background: linear-gradient(135deg, #fff7ed, #fed7aa); }
+    .service-img-box.pink-bg { background: linear-gradient(135deg, #fdf2f8, #fce7f3); }
+    .service-img-box.yellow-bg { background: linear-gradient(135deg, #fefce8, #fef08a); }
+
+    /* ── PRODUCTS ── */
+    .products { background: white; }
+    .products-list { display: flex; flex-direction: column; gap: 72px; margin-top: 20px; }
+    .product-tag { display: inline-block; border: 1px solid var(--teal); color: var(--teal); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; padding: 4px 12px; border-radius: 4px; margin-bottom: 14px; }
+    .product-row { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+    .product-row.reverse { direction: rtl; }
+    .product-row.reverse > * { direction: ltr; }
+    .product-text h3 { font-family: 'Poppins', sans-serif; font-size: 1.7rem; font-weight: 700; color: var(--gray-900); margin-bottom: 16px; }
+    .product-text p { color: var(--gray-700); line-height: 1.8; font-size: 0.95rem; margin-bottom: 28px; }
+    .product-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn-teal { background: var(--teal); color: white; padding: 11px 22px; border-radius: 50px; font-weight: 600; font-size: 0.85rem; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: background 0.2s; }
+    .btn-teal:hover { background: var(--teal-dark); }
+    .btn-outline-teal { background: transparent; color: var(--gray-700); border: 1.5px solid #cbd5e1; padding: 11px 22px; border-radius: 50px; font-weight: 500; font-size: 0.85rem; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: border-color 0.2s, color 0.2s; }
+    .btn-outline-teal:hover { border-color: var(--teal); color: var(--teal); }
+    .product-logo-box { display: flex; align-items: center; justify-content: center; min-height: 300px; }
+    .product-logo-circle { width: 260px; height: 260px; border-radius: 50%; background: #1a1a1a; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 48px rgba(0,0,0,0.15); overflow: hidden; }
+    .pujapath-logo { width: 220px; height: 220px; border-radius: 50%; background: #f5c518; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; }
+    .pujapath-logo .om { font-size: 3.5rem; color: #8b0000; }
+    .pujapath-logo .brand-name { font-family: 'Poppins', sans-serif; font-size: 0.85rem; font-weight: 800; color: #8b0000; letter-spacing: 0.12em; }
+    .taxutsav-circle { width: 240px; height: 240px; border-radius: 50%; background: linear-gradient(135deg, #1565c0, #0d47a1); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 8px 40px rgba(21,101,192,0.3); }
+    .moolcdc-circle { width: 240px; height: 240px; border-radius: 50%; background: linear-gradient(135deg, #00897b, #004d40); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 8px 40px rgba(0,137,123,0.3); }
+    .shoplinemart-circle { width: 240px; height: 240px; border-radius: 50%; background: linear-gradient(135deg, #e65100, #bf360c); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 8px 40px rgba(230,81,0,0.3); }
+    .dishika-circle { width: 260px; height: 260px; border-radius: 50%; background: radial-gradient(circle, #1a1a2e, #0d0d1a); display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 48px rgba(255,140,0,0.3); }
+    .circle-icon { font-size: 3.5rem; }
+    .circle-label { font-family: 'Poppins', sans-serif; font-weight: 700; color: white; font-size: 1rem; }
+    .circle-sub { font-size: 0.7rem; color: rgba(255,255,255,0.5); }
+
+    /* ── REQUEST FORM ── */
+    .request { background: white; }
+    .form-card { background: var(--navy); border-radius: 16px; padding: 48px; margin-top: 40px; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px 32px; }
+    .form-group { display: flex; flex-direction: column; gap: 8px; }
+    .form-group label { font-size: 0.82rem; color: rgba(255,255,255,0.7); font-weight: 500; }
+    .form-group label span.req { color: var(--teal); }
+    .form-group input, .form-group select, .form-group textarea { background: transparent; border: none; border-bottom: 1px solid rgba(255,255,255,0.25); padding: 10px 0; color: white; font-size: 0.9rem; font-family: 'Inter', sans-serif; outline: none; transition: border-color 0.2s; width: 100%; }
+    .form-group input::placeholder, .form-group textarea::placeholder { color: rgba(255,255,255,0.3); }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-bottom-color: var(--teal); }
+    .form-group select { -webkit-appearance: none; cursor: pointer; }
+    .form-group select option { background: var(--navy); }
+    .form-group textarea { min-height: 80px; resize: none; }
+    .form-check { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
+    .form-check input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--teal); cursor: pointer; }
+    .form-check label { font-size: 0.82rem; color: rgba(255,255,255,0.65); cursor: pointer; }
+    .btn-submit-form { width: 100%; background: var(--teal); color: white; border: none; border-radius: 8px; padding: 16px; font-size: 1rem; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif; margin-top: 24px; transition: background 0.2s; }
+    .btn-submit-form:hover { background: var(--teal-dark); }
+
+    /* ── CAREERS ── */
+    .careers { background: linear-gradient(180deg, #b2f0f7 0%, #7de8f5 50%, #4ddaf0 100%); }
+    .careers .section-title { color: var(--teal-dark); }
+    .careers .section-subtitle { color: #1a5f6e; }
+    .culture-box { background: white; border-radius: 14px; border: 1px solid rgba(14,165,200,0.2); padding: 40px; text-align: center; max-width: 860px; margin: 40px auto 48px; box-shadow: 0 2px 16px rgba(0,0,0,0.06); }
+    .culture-box p { color: var(--gray-700); line-height: 1.85; font-size: 0.95rem; }
+    .culture-box .slogan { color: var(--teal); font-weight: 700; font-size: 1rem; margin-top: 20px; letter-spacing: 0.02em; }
+    .jobs-list { display: flex; flex-direction: column; gap: 12px; max-width: 860px; margin: 0 auto; }
+    .job-item { display: flex; align-items: center; justify-content: space-between; padding: 18px 24px; background: white; border-radius: 10px; border: 1px solid rgba(14,165,200,0.2); cursor: pointer; transition: background 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+    .job-item:hover { background: #f0fdff; }
+    .job-item h4 { font-size: 0.95rem; font-weight: 600; color: var(--teal); }
+    .job-chevron { color: var(--teal); font-size: 1.1rem; transition: transform 0.3s; }
+    .job-item.open .job-chevron { transform: rotate(180deg); }
+    .job-detail { padding: 0 24px; max-height: 0; overflow: hidden; background: white; border-radius: 0 0 10px 10px; border: 1px solid rgba(14,165,200,0.2); border-top: none; margin-top: -12px; transition: max-height 0.3s, padding 0.3s; }
+    .job-detail.open { max-height: 200px; padding: 16px 24px 20px; }
+    .job-detail p { font-size: 0.88rem; color: var(--gray-500); line-height: 1.7; }
+
+    /* ── SIGN IN / REGISTER PAGES (split-card design) ── */
+    .auth-page { display: none; position: fixed; inset: 0; z-index: 9000; background: #e8f0f7; overflow-y: auto; }
+    .auth-page.open { display: block; }
+
+    /* Shared top nav */
+    .auth-nav { display: flex; align-items: center; justify-content: space-between; padding: 0 40px; height: 68px; background: white; border-bottom: 1px solid #e2e8f0; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+    .auth-nav .nav-logo { text-decoration: none; display: flex; align-items: center; gap: 10px; }
+    .auth-nav .nav-logo .nav-logo-icon { width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, #0c2d4a, #0ea5c8); border: 2px solid var(--teal); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
+    .auth-nav .nav-logo .brand { font-family: 'Poppins',sans-serif; font-weight: 700; font-size: 1.05rem; color: var(--teal); }
+    .auth-nav .nav-logo .sub { font-size: 0.62rem; color: #94a3b8; }
+    .auth-nav-right { display: flex; align-items: center; gap: 10px; }
+    .auth-lang-btn { display: flex; align-items: center; gap: 6px; border: 1.5px solid #e2e8f0; border-radius: 8px; padding: 7px 14px; color: #475569; font-size: 0.82rem; cursor: pointer; background: white; font-family: 'Inter',sans-serif; font-weight: 500; }
+    .auth-signin-btn { background: var(--teal); color: white; border: none; border-radius: 8px; padding: 9px 22px; font-size: 0.85rem; font-weight: 600; cursor: pointer; font-family: 'Inter',sans-serif; }
+    .auth-signin-btn:hover { background: var(--teal-dark); }
+
+    /* Split card body */
+    .auth-body { min-height: calc(100vh - 68px); display: flex; align-items: center; justify-content: center; padding: 40px 20px; background: #e8f0f7; }
+    .auth-split-card { display: flex; width: 100%; max-width: 860px; border-radius: 18px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.13); }
+
+    /* Left teal panel */
+    .auth-panel-left { flex: 0 0 42%; background: linear-gradient(160deg, #0d3a52 0%, #0b7a8a 50%, #0ea5c8 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 48px 36px; text-align: center; position: relative; overflow: hidden; }
+    .auth-panel-left::before { content: ''; position: absolute; top: -60px; right: -60px; width: 200px; height: 200px; border-radius: 50%; border: 40px solid rgba(255,255,255,0.06); }
+    .auth-panel-left::after { content: ''; position: absolute; bottom: -40px; left: -40px; width: 160px; height: 160px; border-radius: 50%; border: 30px solid rgba(255,255,255,0.05); }
+    .auth-panel-left h2 { font-family: 'Poppins',sans-serif; font-size: 1.7rem; font-weight: 700; color: var(--teal-light); margin-bottom: 14px; line-height: 1.2; }
+    .auth-panel-left p { font-size: 0.88rem; color: rgba(255,255,255,0.75); line-height: 1.65; max-width: 240px; }
+    .auth-illus { width: 170px; height: 170px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; margin: 28px auto; background: rgba(255,255,255,0.07); }
+
+    /* Right white panel */
+    .auth-panel-right { flex: 1; background: white; padding: 48px 44px; display: flex; flex-direction: column; justify-content: center; }
+    .auth-panel-right h3 { font-family: 'Poppins',sans-serif; font-size: 1.7rem; font-weight: 700; color: #0f172a; margin-bottom: 6px; }
+    .auth-panel-right .auth-sub { font-size: 0.86rem; color: #64748b; margin-bottom: 30px; }
+
+    /* Form fields */
+    .auth-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 18px; }
+    .auth-field label { font-size: 0.82rem; font-weight: 600; color: #334155; }
+    .auth-field .input-wrap { position: relative; display: flex; align-items: center; }
+    .auth-field .input-wrap .fi-icon { position: absolute; left: 14px; color: #94a3b8; font-size: 1rem; }
+    .auth-field .input-wrap input { width: 100%; border: 1.5px solid #e2e8f0; border-radius: 10px; padding: 12px 14px 12px 40px; font-size: 0.9rem; font-family: 'Inter',sans-serif; outline: none; color: #1e293b; background: white; transition: border-color 0.2s, box-shadow 0.2s; }
+    .auth-field .input-wrap input:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(14,165,200,0.12); }
+    .auth-field .input-wrap input::placeholder { color: #b0bec5; }
+    .auth-field .input-wrap .toggle-pass { position: absolute; right: 14px; color: #94a3b8; cursor: pointer; font-size: 1rem; background: none; border: none; padding: 0; }
+    .auth-field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+    /* Extras */
+    .auth-extras { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; }
+    .auth-remember { display: flex; align-items: center; gap: 7px; }
+    .auth-remember input[type="checkbox"] { width: 14px; height: 14px; accent-color: var(--teal); cursor: pointer; }
+    .auth-remember label { font-size: 0.8rem; color: #64748b; cursor: pointer; }
+    .auth-forgot { font-size: 0.8rem; color: var(--teal); text-decoration: none; }
+    .auth-forgot:hover { text-decoration: underline; }
+
+    .btn-auth-submit { width: 100%; background: var(--teal); color: white; border: none; border-radius: 10px; padding: 14px; font-size: 0.95rem; font-weight: 700; cursor: pointer; font-family: 'Poppins',sans-serif; transition: background 0.2s, transform 0.15s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .btn-auth-submit:hover { background: var(--teal-dark); transform: translateY(-1px); }
+    .auth-bottom-link { text-align: center; margin-top: 20px; font-size: 0.84rem; color: #64748b; }
+    .auth-bottom-link a { color: var(--teal); font-weight: 600; text-decoration: none; }
+    .auth-bottom-link a:hover { text-decoration: underline; }
+    .auth-agree { display: flex; align-items: flex-start; gap: 9px; margin-bottom: 20px; }
+    .auth-agree input[type="checkbox"] { width: 14px; height: 14px; accent-color: var(--teal); cursor: pointer; margin-top: 3px; flex-shrink: 0; }
+    .auth-agree label { font-size: 0.8rem; color: #64748b; cursor: pointer; line-height: 1.55; }
+    .auth-agree label a { color: var(--teal); }
+
+    @media (max-width: 700px) {
+      .auth-split-card { flex-direction: column; }
+      .auth-panel-left { flex: none; padding: 36px 24px; }
+      .auth-panel-right { padding: 32px 24px; }
+      .auth-field-row { grid-template-columns: 1fr; }
+    }
+
+    /* ── Auth Toast ── */
+    .auth-toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(20px); background: #1e293b; color: white; padding: 13px 24px; border-radius: 10px; font-size: 0.88rem; font-weight: 500; z-index: 99999; opacity: 0; transition: opacity 0.3s, transform 0.3s; box-shadow: 0 8px 32px rgba(0,0,0,0.3); white-space: nowrap; }
+    .auth-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .auth-toast-success { border-left: 4px solid #22c55e; }
+    .auth-toast-error   { border-left: 4px solid #ef4444; }
+
+    /* ── Nav logged-in state ── */
+    .btn-signin.logged-in { background: transparent; border: 1.5px solid var(--teal); display: flex; align-items: center; gap: 7px; padding: 7px 14px; cursor: pointer; }
+    .nav-user-avatar { width: 26px; height: 26px; border-radius: 50%; background: var(--teal); color: white; display: flex; align-items: center; justify-content: center; font-size: 0.78rem; font-weight: 700; }
+    .nav-user-name { font-size: 0.82rem; color: white; font-weight: 600; }
+    .nav-user-arrow { font-size: 0.55rem; color: rgba(255,255,255,0.6); }
+
+    /* ── User dropdown menu ── */
+    .user-menu { position: absolute; top: calc(100% + 10px); right: 0; background: #0d1b2e; border: 1px solid rgba(14,165,200,0.2); border-radius: 14px; width: 320px; z-index: 5000; box-shadow: 0 20px 60px rgba(0,0,0,0.5); overflow: hidden; }
+    .user-menu-header { display: flex; align-items: center; gap: 14px; padding: 18px 20px; background: rgba(14,165,200,0.08); border-bottom: 1px solid rgba(255,255,255,0.07); }
+    .user-menu-avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--teal); color: white; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: 700; flex-shrink: 0; }
+    .user-menu-name  { font-weight: 700; color: white; font-size: 0.9rem; margin-bottom: 2px; }
+    .user-menu-email { font-size: 0.75rem; color: rgba(255,255,255,0.45); }
+    .user-menu-role  { display: inline-block; margin-top: 4px; font-size: 0.62rem; font-weight: 700; background: rgba(14,165,200,0.2); color: var(--teal); border-radius: 4px; padding: 2px 7px; letter-spacing: 0.05em; }
+    .user-menu-tokens { padding: 14px 20px; border-bottom: 1px solid rgba(255,255,255,0.07); }
+    .token-row   { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+    .token-label { font-size: 0.78rem; font-weight: 600; color: rgba(255,255,255,0.7); }
+    .token-badge { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.06em; border-radius: 4px; padding: 2px 7px; }
+    .token-active  { background: rgba(34,197,94,0.2);  color: #4ade80; }
+    .token-refresh { background: rgba(14,165,200,0.2); color: var(--teal-light); }
+    .token-exp     { font-size: 0.72rem; color: rgba(255,255,255,0.4); margin-bottom: 4px; }
+    .token-preview { font-size: 0.68rem; color: rgba(255,255,255,0.25); font-family: monospace; word-break: break-all; background: rgba(0,0,0,0.2); border-radius: 5px; padding: 5px 8px; }
+    .user-menu-actions { padding: 10px 14px; display: flex; flex-direction: column; gap: 4px; }
+    .user-menu-btn { width: 100%; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 9px 14px; font-size: 0.82rem; color: rgba(255,255,255,0.75); cursor: pointer; font-family: 'Inter',sans-serif; text-align: left; transition: background 0.15s; }
+    .user-menu-btn:hover { background: rgba(14,165,200,0.12); color: white; }
+    .user-menu-btn.logout-btn:hover { background: rgba(239,68,68,0.15); color: #f87171; }
+
+    /* ── Token info modal ── */
+    .token-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 99998; display: flex; align-items: center; justify-content: center; padding: 20px; }
+    .token-modal { background: #0d1b2e; border-radius: 16px; width: 100%; max-width: 580px; border: 1px solid rgba(14,165,200,0.2); box-shadow: 0 24px 80px rgba(0,0,0,0.6); overflow: hidden; }
+    .token-modal-header { display: flex; align-items: center; justify-content: space-between; padding: 20px 24px; border-bottom: 1px solid rgba(255,255,255,0.07); }
+    .token-modal-header h3 { font-family: 'Poppins',sans-serif; font-size: 1.1rem; font-weight: 700; color: white; }
+    .token-modal-header button { background: none; border: none; color: rgba(255,255,255,0.5); font-size: 1.1rem; cursor: pointer; }
+    .token-modal-body { padding: 20px 24px; max-height: 55vh; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; }
+    .token-section { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 10px; padding: 14px 16px; }
+    .ts-title { font-size: 0.8rem; font-weight: 700; color: var(--teal-light); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .ts-row   { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-size: 0.8rem; color: rgba(255,255,255,0.55); }
+    .ts-row code { background: rgba(0,0,0,0.3); border-radius: 4px; padding: 2px 8px; font-size: 0.78rem; color: var(--teal-light); }
+    .ts-code  { font-family: monospace; font-size: 0.7rem; color: rgba(255,255,255,0.3); word-break: break-all; background: rgba(0,0,0,0.25); border-radius: 6px; padding: 8px 10px; margin-top: 6px; }
+    .token-modal-footer { padding: 16px 24px; border-top: 1px solid rgba(255,255,255,0.07); display: flex; gap: 12px; justify-content: flex-end; }
+    footer { background: #0a1628; padding: 56px 0 28px; }
+    .footer-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+    .footer-col h4 { font-size: 0.92rem; font-weight: 600; color: white; margin-bottom: 22px; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .footer-col ul li { display: flex; align-items: flex-start; gap: 10px; }
+    .footer-col ul li .fi { color: var(--teal); font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+    .footer-col ul a { font-size: 0.84rem; color: rgba(255,255,255,0.6); text-decoration: none; transition: color 0.2s; }
+    .footer-col ul a:hover { color: var(--teal); }
+    .footer-col ul span { font-size: 0.84rem; color: rgba(255,255,255,0.6); }
+    .addr-sub { font-size: 0.78rem; color: rgba(255,255,255,0.4); margin-top: 2px; display: block; }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 24px; text-align: center; }
+    .footer-bottom p { font-size: 0.8rem; color: rgba(255,255,255,0.4); }
+
+    /* ── MOBILE ── */
+    @media (max-width: 900px) {
+      nav { padding: 0 20px; gap: 16px; }
+      .nav-links-center { display: none; }
+      .nav-links-center.open { display: flex; flex-direction: column; position: fixed; top: 72px; left: 0; right: 0; background: #0a1628; padding: 24px 20px; gap: 18px; border-bottom: 1px solid rgba(255,255,255,0.1); z-index: 999; }
+      .hamburger { display: flex; }
+      .about-inner, .service-row, .product-row { grid-template-columns: 1fr; }
+      .service-row.reverse, .product-row.reverse { direction: ltr; }
+      .form-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .signin-page-nav { padding: 0 20px; }
+    }
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <a href="#home" class="nav-logo">
+    <div class="nav-logo-icon">👁</div>
+    <div class="nav-logo-text">
+      <div class="brand">Dipvision</div>
+      <div class="sub" data-i18n="nav_sub">Infotech Solution Pvt. Ltd.</div>
+    </div>
+  </a>
+  <ul class="nav-links-center" id="navLinks">
+    <li><a href="#home" data-i18n="nav_home">Home</a></li>
+    <li><a href="#about" data-i18n="nav_about">About</a></li>
+    <li><a href="#services" data-i18n="nav_services">Services</a></li>
+    <li><a href="#products" data-i18n="nav_products">Products</a></li>
+    <li><a href="#careers" data-i18n="nav_career">Career</a></li>
+    <li><a href="#contact" data-i18n="nav_contact">Contact us</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="lang-btn" id="langBtn" onclick="toggleLang()">
+      <span>🌐</span>
+      <span id="langLabel">GB English</span>
+      <span class="lang-arrow">▼</span>
+    </button>
+    <div class="lang-dropdown" id="langDropdown">
+      <div class="lang-item active" onclick="selectLang('en','GB English')"><span class="lang-code">GB</span><span class="lang-name">GB English</span></div>
+      <div class="lang-item" onclick="selectLang('hi','IN हिन्दी')"><span class="lang-code">IN</span><span class="lang-name">IN हिन्दी</span></div>
+      <div class="lang-item" onclick="selectLang('bn','IN বাংলা')"><span class="lang-code">IN</span><span class="lang-name">IN বাংলা</span></div>
+      <div class="lang-item" onclick="selectLang('ta','IN தமிழ்')"><span class="lang-code">IN</span><span class="lang-name">IN தமிழ்</span></div>
+      <div class="lang-item" onclick="selectLang('te','IN తెలుగు')"><span class="lang-code">IN</span><span class="lang-name">IN తెలుగు</span></div>
+      <div class="lang-item" onclick="selectLang('mr','IN मराठी')"><span class="lang-code">IN</span><span class="lang-name">IN मराठी</span></div>
+      <div class="lang-item" onclick="selectLang('gu','IN ગુજરાતી')"><span class="lang-code">IN</span><span class="lang-name">IN ગુજરાતી</span></div>
+      <div class="lang-item" onclick="selectLang('fr','FR Français')"><span class="lang-code">FR</span><span class="lang-name">FR Français</span></div>
+    </div>
+    <button class="btn-signin" id="navSigninBtn" onclick="openSigninPage()" data-i18n="signin_btn">Sign In</button>
+    <div class="hamburger" id="hamburger" onclick="toggleNav()">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- SIGN IN PAGE -->
+<div class="auth-page" id="signinPage">
+  <nav class="auth-nav">
+    <a href="#home" class="nav-logo" onclick="closeSigninPage(); return false;">
+      <div class="nav-logo-icon">👁</div>
+      <div class="nav-logo-text">
+        <div class="brand">Dipvision</div>
+        <div class="sub" data-i18n="nav_sub">Infotech Solution Pvt. Ltd.</div>
+      </div>
+    </a>
+    <div class="auth-nav-right">
+      <button class="auth-lang-btn">🌐 GB English</button>
+      <button class="auth-signin-btn" onclick="closeSigninPage()">Back to Site</button>
+    </div>
+  </nav>
+  <div class="auth-body">
+    <div class="auth-split-card">
+      <!-- Left teal panel -->
+      <div class="auth-panel-left">
+        <h2>Welcome Back</h2>
+        <p>Sign in to continue exploring our premium IT services and solutions.</p>
+        <!-- SVG Illustration: Rocket / Login -->
+        <div class="auth-illus">
+          <svg width="110" height="110" viewBox="0 0 110 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Key/lock icon representing secure login -->
+            <circle cx="55" cy="55" r="52" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
+            <!-- Shield shape -->
+            <path d="M55 18 L78 28 L78 52 C78 66 66 76 55 80 C44 76 32 66 32 52 L32 28 Z" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
+            <!-- Lock body -->
+            <rect x="43" y="52" width="24" height="18" rx="4" fill="white" opacity="0.9"/>
+            <!-- Lock shackle -->
+            <path d="M46 52 L46 46 C46 40.5 64 40.5 64 46 L64 52" stroke="white" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.9"/>
+            <!-- Keyhole -->
+            <circle cx="55" cy="59" r="3.5" fill="#0ea5c8"/>
+            <rect x="53.5" y="61" width="3" height="5" rx="1" fill="#0ea5c8"/>
+            <!-- Stars -->
+            <circle cx="30" cy="30" r="2" fill="rgba(255,255,255,0.5)"/>
+            <circle cx="82" cy="25" r="1.5" fill="rgba(255,255,255,0.4)"/>
+            <circle cx="25" cy="72" r="1.5" fill="rgba(255,255,255,0.3)"/>
+            <circle cx="85" cy="75" r="2" fill="rgba(255,255,255,0.4)"/>
+          </svg>
+        </div>
+      </div>
+      <!-- Right white panel -->
+      <div class="auth-panel-right">
+        <h3>Sign In</h3>
+        <p class="auth-sub">Enter your credentials to access your account</p>
+
+        <div class="auth-field">
+          <label>Email, Username, or Phone</label>
+          <div class="input-wrap">
+            <span class="fi-icon">👤</span>
+            <input type="text" id="pageSigninEmail" placeholder="john@example.com or +919876543210"/>
+          </div>
+        </div>
+
+        <div class="auth-field">
+          <label>Password</label>
+          <div class="input-wrap">
+            <span class="fi-icon">🔒</span>
+            <input type="password" id="pageSigninPass" placeholder="••••••••"/>
+            <button class="toggle-pass" onclick="togglePass('pageSigninPass',this)" type="button">👁</button>
+          </div>
+        </div>
+
+        <div class="auth-extras">
+          <div class="auth-remember">
+            <input type="checkbox" id="rememberMe"/>
+            <label for="rememberMe">Remember me</label>
+          </div>
+          <a href="#" class="auth-forgot">Forgot password?</a>
+        </div>
+
+        <button class="btn-auth-submit" onclick="doPageSignin()">Sign In &nbsp;→</button>
+        <p class="auth-bottom-link">Don't have an account? <a href="#" onclick="openRegisterPage(); return false;">Create an account</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- REGISTER PAGE -->
+<div class="auth-page" id="registerPage">
+  <nav class="auth-nav">
+    <a href="#home" class="nav-logo" onclick="closeRegisterPage(); return false;">
+      <div class="nav-logo-icon">👁</div>
+      <div class="nav-logo-text">
+        <div class="brand">Dipvision</div>
+        <div class="sub">Infotech Solution Pvt. Ltd.</div>
+      </div>
+    </a>
+    <div class="auth-nav-right">
+      <button class="auth-lang-btn">🌐 GB English</button>
+      <button class="auth-signin-btn" onclick="closeRegisterPage()">Back to Site</button>
+    </div>
+  </nav>
+  <div class="auth-body">
+    <div class="auth-split-card" style="max-width:920px; flex-direction: row-reverse;">
+      <!-- Right teal panel (on right for register) -->
+      <div class="auth-panel-left" style="flex:0 0 38%;">
+        <h2>Secure &amp; Fast</h2>
+        <p>Join thousands of professionals scaling their digital presence with Dipvision.</p>
+        <!-- SVG Illustration: Fingerprint / Security -->
+        <div class="auth-illus">
+          <svg width="110" height="110" viewBox="0 0 110 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="55" cy="55" r="52" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
+            <!-- Fingerprint arcs -->
+            <path d="M55 22 C37 22 22 37 22 55" stroke="rgba(255,255,255,0.3)" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+            <path d="M55 30 C41 30 30 41 30 55 C30 58 30.5 61 31.5 63.5" stroke="rgba(255,255,255,0.5)" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+            <path d="M55 38 C45 38 38 45 38 55 C38 61.5 41 67 45.5 70" stroke="rgba(255,255,255,0.65)" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+            <path d="M55 46 C50 46 46 50 46 55 C46 59 48.5 62.5 52 64.5" stroke="white" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+            <path d="M55 46 C60 46 64 50 64 55 C64 61 60 66 54 68" stroke="white" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+            <path d="M55 38 C65 38 72 45 72 55 C72 64 66 71.5 57.5 74" stroke="rgba(255,255,255,0.65)" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+            <path d="M55 30 C69 30 80 41 80 55 C80 66.5 73 75.5 63 79" stroke="rgba(255,255,255,0.5)" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+            <path d="M55 22 C73 22 88 37 88 55 C88 70 79 82 66 86.5" stroke="rgba(255,255,255,0.3)" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+            <!-- Centre dot -->
+            <circle cx="55" cy="55" r="4" fill="var(--teal-light)"/>
+            <!-- Stars -->
+            <circle cx="28" cy="28" r="1.8" fill="rgba(255,255,255,0.5)"/>
+            <circle cx="84" cy="26" r="1.4" fill="rgba(255,255,255,0.4)"/>
+            <circle cx="26" cy="78" r="1.4" fill="rgba(255,255,255,0.3)"/>
+            <circle cx="86" cy="80" r="1.8" fill="rgba(255,255,255,0.4)"/>
+          </svg>
+        </div>
+      </div>
+      <!-- Left white form panel -->
+      <div class="auth-panel-right" style="padding:40px 44px;">
+        <h3>Create an Account</h3>
+        <p class="auth-sub">Join us to access exclusive features</p>
+
+        <div class="auth-field-row">
+          <div class="auth-field">
+            <label>First Name</label>
+            <div class="input-wrap">
+              <span class="fi-icon">👤</span>
+              <input type="text" id="reg_fname" placeholder="John"/>
+            </div>
+          </div>
+          <div class="auth-field">
+            <label>Last Name</label>
+            <div class="input-wrap">
+              <span class="fi-icon">👤</span>
+              <input type="text" id="reg_lname" placeholder="Doe"/>
+            </div>
+          </div>
+        </div>
+
+        <div class="auth-field">
+          <label>Email Address</label>
+          <div class="input-wrap">
+            <span class="fi-icon">✉️</span>
+            <input type="email" id="reg_email" placeholder="john@example.com"/>
+          </div>
+        </div>
+
+        <div class="auth-field">
+          <label>Phone Number</label>
+          <div class="input-wrap">
+            <span class="fi-icon">📞</span>
+            <input type="tel" id="reg_phone" placeholder="+919876543210"/>
+          </div>
+        </div>
+
+        <div class="auth-field-row">
+          <div class="auth-field">
+            <label>Password</label>
+            <div class="input-wrap">
+              <span class="fi-icon">🔒</span>
+              <input type="password" id="reg_pass" placeholder="••••••••"/>
+              <button class="toggle-pass" onclick="togglePass('reg_pass',this)" type="button">👁</button>
+            </div>
+          </div>
+          <div class="auth-field">
+            <label>Confirm Password</label>
+            <div class="input-wrap">
+              <span class="fi-icon">🔒</span>
+              <input type="password" id="reg_cpass" placeholder="••••••••"/>
+              <button class="toggle-pass" onclick="togglePass('reg_cpass',this)" type="button">👁</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="auth-agree">
+          <input type="checkbox" id="reg_agree"/>
+          <label for="reg_agree">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label>
+        </div>
+
+        <button class="btn-auth-submit" onclick="doRegister()">Continue &nbsp;→</button>
+        <p class="auth-bottom-link">Already have an account? <a href="#" onclick="closeRegisterPage(); openSigninPage(); return false;">Sign in here</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <canvas id="network"></canvas>
+  <div class="hero-content">
+    <h1 data-i18n="hero_title">Welcome to Dipvision</h1>
+    <p class="hero-sub" data-i18n="hero_sub">We craft intelligent, scalable, and secure digital solutions tailored for your business growth.</p>
+    <div class="hero-btns">
+      <a href="#services" class="btn-primary" data-i18n="hero_btn1">Explore Our Services</a>
+      <a href="#contact" class="btn-outline-hero" data-i18n="hero_btn2">Get in Touch</a>
+    </div>
+  </div>
+</section>
+
+<!-- WHO WE ARE -->
+<section class="about" id="about">
+  <div class="container">
+    <div class="about-inner">
+      <div class="about-body reveal">
+        <h2 data-i18n="about_title">Who We Are</h2>
+        <p class="about-tagline" data-i18n="about_tagline">Empowering ideas with technology, innovation, and integrity.</p>
+        <p data-i18n="about_p1">At Dipvision Infotech Solution Pvt. Ltd., we're more than just a tech company — we're your <span class="hl">digital innovation partners</span>. We specialize in crafting future-ready software, mobile apps, and digital solutions that drive growth, efficiency, and transformation.</p>
+        <p data-i18n="about_p2">Our team blends <span class="hl">technical expertise</span> with creative strategy to deliver intuitive user experiences, scalable architectures, and intelligent automation powered by modern technologies such as AI, cloud computing, and cross-platform development.</p>
+        <p data-i18n="about_p3">Whether you're a startup or an enterprise, we help you unlock new opportunities, streamline operations, and stay ahead of the curve. With a strong focus on quality and commitment, we build digital ecosystems that are secure, reliable, and built to scale.</p>
+        <p class="about-closing" data-i18n="about_closing">Let's shape the future of digital, together.</p>
+      </div>
+      <div class="about-img-box reveal">
+        <div style="text-align:center; width:100%;">
+          <div style="background:linear-gradient(135deg,#e8f4f8,#d0eef5);border-radius:12px;padding:32px;">
+            <div style="background:white;border-radius:10px;padding:20px;box-shadow:0 4px 20px rgba(0,0,0,0.08);margin-bottom:16px;">
+              <div style="display:flex;gap:8px;align-items:flex-end;height:80px;margin-bottom:8px;">
+                <div style="flex:1;background:#0ea5c8;border-radius:3px 3px 0 0;height:60%;"></div>
+                <div style="flex:1;background:#22d3ee;border-radius:3px 3px 0 0;height:80%;"></div>
+                <div style="flex:1;background:#0ea5c8;border-radius:3px 3px 0 0;height:45%;"></div>
+                <div style="flex:1;background:#22d3ee;border-radius:3px 3px 0 0;height:95%;"></div>
+                <div style="flex:1;background:#0ea5c8;border-radius:3px 3px 0 0;height:70%;"></div>
+                <div style="flex:1;background:#22d3ee;border-radius:3px 3px 0 0;height:85%;"></div>
+              </div>
+              <div style="font-size:0.7rem;color:#64748b;text-align:left;" data-i18n="about_chart_label">Performance Analytics</div>
+            </div>
+            <div style="display:flex;justify-content:center;gap:12px;">
+              <div style="width:52px;height:52px;background:#1565c0;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.4rem;">👩🏾‍💼</div>
+              <div style="width:52px;height:52px;background:#0ea5c8;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.4rem;">👨🏽‍💻</div>
+              <div style="width:52px;height:52px;background:#0d47a1;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.4rem;">👨🏻‍💼</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="container">
+    <h2 class="section-title reveal" data-i18n="srv_title">Services Offered</h2>
+    <p class="section-subtitle reveal" data-i18n="srv_subtitle">We provide a wide range of digital solutions to help your business grow and succeed in the digital world.</p>
+    <div class="services-list">
+      <div class="service-row reveal">
+        <div class="service-text"><h3 data-i18n="srv1_title">Mobile App Development</h3><p data-i18n="srv1_desc">We specialize in developing custom Android and iOS applications tailored to your business needs. Whether it's a native app using Kotlin or Swift, or a cross-platform solution built with Flutter, our team ensures seamless performance and an intuitive user experience. From initial prototypes to launch on the Play Store and App Store, we manage the entire lifecycle with precision.</p></div>
+        <div class="service-img-box teal-bg"><div style="text-align:center;"><div style="font-size:5rem;">📱</div></div></div>
+      </div>
+      <div class="service-row reverse reveal">
+        <div class="service-text"><h3 data-i18n="srv2_title">Web Development</h3><p data-i18n="srv2_desc">Our web development services cover everything from responsive single-page websites to complex full-stack applications. Using modern frameworks like React, Node.js, Python, and .NET, we build scalable, secure, and high-performance web solutions. We also offer dynamic CMS and E-commerce development using platforms like WordPress and Shopify.</p></div>
+        <div class="service-img-box blue-bg" style="position:relative;min-height:260px;">
+          <div style="position:relative;width:160px;height:160px;">
+            <div style="width:130px;height:130px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#4fc3f7,#01579b);margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:2.2rem;box-shadow:0 8px 32px rgba(1,87,155,0.3);">🌐</div>
+            <div style="position:absolute;top:-8px;right:-8px;background:#f5de19;color:#000;font-size:0.6rem;font-weight:800;padding:3px 7px;border-radius:4px;">JS</div>
+            <div style="position:absolute;top:8px;left:-18px;background:#e34c26;color:white;font-size:0.6rem;font-weight:800;padding:3px 7px;border-radius:4px;">HTML</div>
+            <div style="position:absolute;bottom:0;right:-8px;background:#3776ab;color:white;font-size:0.6rem;font-weight:800;padding:3px 7px;border-radius:4px;">Py</div>
+            <div style="position:absolute;bottom:8px;left:-18px;background:#339933;color:white;font-size:0.6rem;font-weight:800;padding:3px 7px;border-radius:4px;">node</div>
+          </div>
+        </div>
+      </div>
+      <div class="service-row reveal">
+        <div class="service-text"><h3 data-i18n="srv3_title">Web Design</h3><p data-i18n="srv3_desc">We design clean, modern, and user-focused websites that not only look great but function seamlessly across devices. Our mobile-first design approach ensures optimal performance on any screen size, while our creative team focuses on branding, visual hierarchy, and storytelling through UI/UX best practices.</p></div>
+        <div class="service-img-box green-bg"><div style="text-align:center;font-size:5rem;">🎨</div></div>
+      </div>
+      <div class="service-row reverse reveal">
+        <div class="service-text"><h3 data-i18n="srv4_title">Software Development</h3><p data-i18n="srv4_desc">From concept to deployment, we offer custom software development services that solve real-world business challenges. Our team builds scalable ERP, CRM, and inventory management systems tailored to your operations. With an agile approach, we ensure flexibility, fast delivery, and ongoing technical support to meet evolving requirements.</p></div>
+        <div class="service-img-box orange-bg"><div style="text-align:center;font-size:5rem;">⚙️</div></div>
+      </div>
+      <div class="service-row reveal">
+        <div class="service-text"><h3 data-i18n="srv5_title">Game Development</h3><p data-i18n="srv5_desc">We create engaging 2D and 3D games using powerful engines like Unity and Unreal Engine. Whether it's for mobile, web, or desktop, our game development team focuses on immersive gameplay and stunning visuals, and interactive storytelling that captivate players and deliver a lasting impact.</p></div>
+        <div class="service-img-box purple-bg"><div style="text-align:center;font-size:5rem;">🎮</div></div>
+      </div>
+      <div class="service-row reverse reveal">
+        <div class="service-text"><h3 data-i18n="srv6_title">App Design</h3><p data-i18n="srv6_desc">Our app design services focus on creating intuitive, beautiful, and functional user interfaces. We design high-fidelity UI mockups, streamline user flows, and build design systems that ensure consistency across platforms. Each screen is carefully crafted to enhance usability and engagement.</p></div>
+        <div class="service-img-box pink-bg"><div style="text-align:center;font-size:5rem;">✏️</div></div>
+      </div>
+      <div class="service-row reveal">
+        <div class="service-text"><h3 data-i18n="srv7_title">Website and App Maintenance</h3><p data-i18n="srv7_desc">We provide ongoing website and application maintenance to ensure stability, security, and performance. This includes real-time monitoring, bug fixes, content updates, and version upgrades. Our proactive support also covers security patches and technical enhancements to keep your digital assets running smoothly.</p></div>
+        <div class="service-img-box teal-bg"><div style="text-align:center;font-size:5rem;">🔧</div></div>
+      </div>
+      <div class="service-row reverse reveal">
+        <div class="service-text"><h3 data-i18n="srv8_title">Digital Marketing</h3><p data-i18n="srv8_desc">We provide comprehensive digital marketing services to help your brand reach and engage your target audience effectively. From SEO and social media marketing to content creation and paid advertising campaigns, we craft data-driven strategies that boost visibility and drive conversions.</p></div>
+        <div class="service-img-box blue-bg"><div style="text-align:center;font-size:5rem;">📊</div></div>
+      </div>
+      <div class="service-row reveal">
+        <div class="service-text"><h3 data-i18n="srv9_title">Domain and Hosting Services</h3><p data-i18n="srv9_desc">We offer complete domain registration and hosting solutions for businesses of all sizes. From securing your domain to setting up cloud-based hosting environments, we ensure your site stays fast, safe, and online. Our services include SSL certificate integration, CDN setup, DNS configuration, and regular backups.</p></div>
+        <div class="service-img-box yellow-bg"><div style="text-align:center;font-size:5rem;">☁️</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section class="products" id="products">
+  <div class="container">
+    <h2 class="section-title reveal" data-i18n="prod_title">Our Products</h2>
+    <div class="underline-bar"></div>
+    <div class="products-list">
+      <div class="product-row reveal">
+        <div class="product-text">
+          <div class="product-tag" data-i18n="tag_mobile">MOBILE APP</div>
+          <h3>Puja Path</h3>
+          <p data-i18n="prod1_desc">Puja Path is a comprehensive digital platform tailored to meet all your spiritual needs. Whether you are looking for daily rituals, specialized puja arrangements, or spiritual guidance, our application brings it all to your fingertips. With an intuitive interface, users can easily navigate through a rich library of mantras, book experienced pandits for ceremonies, and find authentic puja samagri.</p>
+          <div class="product-btns">
+            <a href="https://play.google.com/store/search?q=puja+path&c=apps" target="_blank" class="btn-teal" data-i18n="btn_playstore">▶ Get it on Play Store</a>
+            <a href="#" class="btn-outline-teal" data-i18n="btn_knowmore">ℹ Know More</a>
+          </div>
+        </div>
+        <div class="product-logo-box">
+          <div class="product-logo-circle">
+            <div class="pujapath-logo"><div class="om">ॐ</div><div class="brand-name">PUJAPATH</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="product-row reverse reveal">
+        <div class="product-text">
+          <div class="product-tag" data-i18n="tag_mobile">MOBILE APP</div>
+          <h3>Tax Utsav</h3>
+          <p data-i18n="prod2_desc">Tax Utsav is an intuitive mobile application designed to simplify tax calculation, planning, and filing for individuals and businesses. The app features real-time tax calculators, document organizers, and expert financial guidance to help you navigate tax seasons effortlessly.</p>
+          <div class="product-btns">
+            <a href="https://play.google.com/store/search?q=tax+utsav&c=apps" target="_blank" class="btn-teal" data-i18n="btn_playstore">▶ Get it on Play Store</a>
+            <a href="#" class="btn-outline-teal" data-i18n="btn_knowmore">ℹ Know More</a>
+          </div>
+        </div>
+        <div class="product-logo-box">
+          <div class="taxutsav-circle"><div class="circle-icon">🧾</div><div class="circle-label">Tax Utsav</div></div>
+        </div>
+      </div>
+      <div class="product-row reveal">
+        <div class="product-text">
+          <div class="product-tag" data-i18n="tag_mobile">MOBILE APP</div>
+          <h3>Mool CDC</h3>
+          <p data-i18n="prod3_desc">Mool CDC App is a specialised child development centre dedicated to supporting children with autism, speech delays, and other developmental challenges. Our mission is to empower every child to reach their full potential through structured, evidence-based therapies delivered in a safe, nurturing environment.</p>
+          <div class="product-btns">
+            <a href="https://play.google.com/store/search?q=mool+cdc&c=apps" target="_blank" class="btn-teal" data-i18n="btn_playstore">▶ Get it on Play Store</a>
+            <a href="#" class="btn-outline-teal" data-i18n="btn_knowmore">ℹ Know More</a>
+          </div>
+        </div>
+        <div class="product-logo-box">
+          <div class="moolcdc-circle"><div class="circle-icon">🌱</div><div class="circle-label">Mool CDC</div></div>
+        </div>
+      </div>
+      <div class="product-row reverse reveal">
+        <div class="product-text">
+          <div class="product-tag" data-i18n="tag_web">WEB APPLICATION</div>
+          <h3>Shoplinemart</h3>
+          <p data-i18n="prod4_desc">Shoplinemart represents the next generation of e-commerce web applications, delivering a flawless and engaging shopping experience. Built with modern web technologies, the platform offers lightning-fast performance, intuitive navigation, and highly responsive design across all devices.</p>
+          <div class="product-btns">
+            <a href="https://shoplinemart.com" target="_blank" class="btn-teal" data-i18n="btn_website">🌐 Visit Website</a>
+            <a href="#" class="btn-outline-teal" data-i18n="btn_knowmore">ℹ Know More</a>
+          </div>
+        </div>
+        <div class="product-logo-box">
+          <div class="shoplinemart-circle"><div class="circle-icon">🛒</div><div class="circle-label">Shoplinemart</div></div>
+        </div>
+      </div>
+      <div class="product-row reveal">
+        <div class="product-text">
+          <div class="product-tag" data-i18n="tag_web">WEB APPLICATION</div>
+          <h3>Dishika Tour and Travels</h3>
+          <p data-i18n="prod5_desc">Dishika Tour and Travels is your premier digital gateway to discovering, planning, and booking extraordinary journeys. This dynamic web application offers users a seamless way to explore exotic destinations, customize travel packages, and secure bookings with just a few clicks.</p>
+          <div class="product-btns">
+            <a href="https://dishikatravels.com" target="_blank" class="btn-teal" data-i18n="btn_website">🌐 Visit Website</a>
+            <a href="#" class="btn-outline-teal" data-i18n="btn_knowmore">ℹ Know More</a>
+          </div>
+        </div>
+        <div class="product-logo-box">
+          <div class="dishika-circle">
+            <div style="text-align:center;">
+              <div style="font-size:3rem;">✈️🚗</div>
+              <div class="circle-label" style="margin-top:8px;">Dishika</div>
+              <div class="circle-sub">Tour &amp; Travels</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="request" id="contact">
+  <div class="container">
+    <h2 class="section-title reveal" data-i18n="contact_title">Request for Services</h2>
+    <p class="section-subtitle reveal" data-i18n="contact_subtitle">We've driven growth and purposeful transformation across every industry. Tell us a bit about yourself, so we can get the ball rolling.</p>
+    <div class="form-card reveal">
+      <div class="form-grid">
+        <div class="form-group"><label data-i18n="form_fname">First Name<span class="req">*</span></label><input type="text" id="cf_fname" data-i18n-placeholder="form_fname_ph" placeholder="First name"/></div>
+        <div class="form-group"><label data-i18n="form_lname">Last Name<span class="req">*</span></label><input type="text" id="cf_lname" data-i18n-placeholder="form_lname_ph" placeholder="Last name"/></div>
+        <div class="form-group"><label data-i18n="form_email">Email<span class="req">*</span></label><input type="email" id="cf_email" data-i18n-placeholder="form_email_ph" placeholder="your@email.com"/></div>
+        <div class="form-group"><label data-i18n="form_phone">Contact Number</label><input type="tel" id="cf_phone" data-i18n-placeholder="form_phone_ph" placeholder="+91 00000 00000"/></div>
+        <div class="form-group" style="position:relative;">
+          <label data-i18n="form_region">Select Region<span class="req">*</span></label>
+          <select id="cf_region"><option value="" data-i18n="form_region_ph">Choose region</option><option>India</option><option>USA</option><option>UK</option><option>Europe</option><option>Middle East</option><option>Other</option></select>
+          <span style="position:absolute;right:0;bottom:14px;color:var(--teal);pointer-events:none;">▾</span>
+        </div>
+        <div class="form-group"><label data-i18n="form_org">Organization / Company</label><input type="text" id="cf_org"/></div>
+        <div class="form-group" style="position:relative;grid-column:1/-1;">
+          <label data-i18n="form_inquiry">Inquiry Type<span class="req">*</span></label>
+          <select id="cf_inquiry" style="max-width:50%;"><option value="" data-i18n="form_inquiry_ph">Choose inquiry type</option><option data-i18n="srv1_title">Mobile App Development</option><option data-i18n="srv2_title">Web Development</option><option data-i18n="srv4_title">Software Development</option><option data-i18n="srv8_title">Digital Marketing</option><option data-i18n="srv5_title">Game Development</option><option data-i18n="srv9_title">Domain &amp; Hosting</option><option data-i18n="form_general">General Inquiry</option></select>
+          <span style="position:absolute;left:calc(50% - 16px);bottom:14px;color:var(--teal);pointer-events:none;">▾</span>
+        </div>
+        <div class="form-group" style="grid-column:1/-1;"><label data-i18n="form_msg">Your Message<span class="req">*</span></label><textarea id="cf_msg" rows="4" data-i18n-placeholder="form_msg_ph" placeholder="Tell us about your project..."></textarea></div>
+      </div>
+      <div class="form-check">
+        <input type="checkbox" id="privacy"/>
+        <label for="privacy" data-i18n="form_privacy">I agree to the Privacy Policy and data processing.</label>
+      </div>
+      <button class="btn-submit-form" onclick="handleSubmit()" data-i18n="form_submit">Submit Request</button>
+    </div>
+  </div>
+</section>
+
+<!-- CAREERS -->
+<section class="careers" id="careers">
+  <div class="container">
+    <h2 class="section-title reveal" data-i18n="career_title">Join Our Team</h2>
+    <p class="section-subtitle reveal" data-i18n="career_subtitle">Dipvision Infotech Solution Private Limited fosters innovation and creativity. We welcome passionate professionals and freshers looking to grow in the IT industry.</p>
+    <div class="culture-box reveal">
+      <p data-i18n="career_culture">Dipvision endeavours to create a world a software professional dreams of — a company driven by passion, a commitment to excellence, and a fierce intent to do the right thing. We welcome game changers, culture lovers, and mavericks. If you're passionate about creating unmatched software products and leaving a legacy, we have a place for you.</p>
+      <p class="slogan" data-i18n="career_slogan">TOGETHER WE RISE, TOGETHER WE WIN.</p>
+    </div>
+    <div class="jobs-list reveal">
+      <div class="job-item" onclick="toggleJob(this)"><h4 data-i18n="job1">Kotlin Developer (Android)</h4><span class="job-chevron">∧</span></div>
+      <div class="job-detail"><p data-i18n="job1_desc">We're looking for a passionate Kotlin developer to build high-quality native Android apps. Strong knowledge of Android SDK, Jetpack Compose, and REST APIs required.</p></div>
+      <div class="job-item" onclick="toggleJob(this)"><h4 data-i18n="job2">Flutter Developer (Mobile &amp; Web)</h4><span class="job-chevron">∧</span></div>
+      <div class="job-detail"><p data-i18n="job2_desc">Build cross-platform apps for iOS, Android, and Web using Flutter. Experience with Dart, state management (Bloc/Provider), and Firebase is a plus.</p></div>
+      <div class="job-item" onclick="toggleJob(this)"><h4 data-i18n="job3">NodeJS Developer</h4><span class="job-chevron">∧</span></div>
+      <div class="job-detail"><p data-i18n="job3_desc">Develop scalable backend services using Node.js and Express. Experience with MongoDB, REST APIs, and cloud deployment preferred.</p></div>
+      <div class="job-item" onclick="toggleJob(this)"><h4 data-i18n="job4">Internship Programs (Final Year Students)</h4><span class="job-chevron">∧</span></div>
+      <div class="job-detail"><p data-i18n="job4_desc">We offer internship opportunities for final-year B.Tech/MCA students across development, design, and digital marketing domains.</p></div>
+      <div class="job-item" onclick="toggleJob(this)"><h4 data-i18n="job5">Python Developer</h4><span class="job-chevron">∧</span></div>
+      <div class="job-detail"><p data-i18n="job5_desc">Develop backend systems and automation scripts using Python. Knowledge of Django/Flask, APIs, and SQL/NoSQL databases required.</p></div>
+      <div class="job-item" onclick="toggleJob(this)"><h4 data-i18n="job6">.NET Developer</h4><span class="job-chevron">∧</span></div>
+      <div class="job-detail"><p data-i18n="job6_desc">Build enterprise applications using .NET Core and C#. Experience with ASP.NET MVC, Entity Framework, and SQL Server highly valued.</p></div>
+      <div class="job-item" onclick="toggleJob(this)"><h4 data-i18n="job7">C# Developer</h4><span class="job-chevron">∧</span></div>
+      <div class="job-detail"><p data-i18n="job7_desc">Work on desktop and enterprise software using C#. Strong OOP fundamentals and experience with WPF/WinForms is a bonus.</p></div>
+      <div class="job-item" onclick="toggleJob(this)"><h4 data-i18n="job8">React Developer</h4><span class="job-chevron">∧</span></div>
+      <div class="job-detail"><p data-i18n="job8_desc">Create modern, responsive web applications using React.js. Proficiency in JavaScript/TypeScript, hooks, Redux, and REST API integration required.</p></div>
+      <div class="job-item" onclick="toggleJob(this)"><h4 data-i18n="job9">UI/UX Designer</h4><span class="job-chevron">∧</span></div>
+      <div class="job-detail"><p data-i18n="job9_desc">Design beautiful user-centred interfaces using Figma or Adobe XD. Strong portfolio demonstrating mobile and web design, prototyping, and design systems required.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4 data-i18n="footer_nav">Navigation &amp; Quick Links</h4>
+        <ul>
+          <li><span class="fi">👁</span><a href="#home" data-i18n="footer_vision">Our Vision</a></li>
+          <li><span class="fi">ℹ</span><a href="#about" data-i18n="footer_about">About Us</a></li>
+          <li><span class="fi">💼</span><a href="#careers" data-i18n="footer_careers">Careers</a></li>
+          <li><span class="fi">📦</span><a href="#products" data-i18n="footer_products">Our Product</a></li>
+          <li><span class="fi">📷</span><a href="https://instagram.com" target="_blank">Instagram</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 data-i18n="footer_locations">Corporate Locations</h4>
+        <ul>
+          <li><span class="fi">📍</span><div><div style="color:white;font-size:0.85rem;font-weight:500;" data-i18n="footer_hq">Head Office – Delhi</div><span class="addr-sub">W-121 Prem Nagar 2, Nangloi, Delhi - 110086</span></div></li>
+          <li><span class="fi">📍</span><div><div style="color:white;font-size:0.85rem;font-weight:500;" data-i18n="footer_branch">Branch Office – Kolkata</div><span class="addr-sub">17/94 Kabardanga, Baganpara, Kolkata - 700104</span></div></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 data-i18n="footer_contact">Contact &amp; Collaboration</h4>
+        <p style="font-size:0.83rem;color:rgba(255,255,255,0.5);margin-bottom:16px;" data-i18n="footer_contact_sub">Want to build something impactful? Let's connect.</p>
+        <ul>
+          <li><span class="fi">✉</span><a href="mailto:infodipvision@gmail.com">infodipvision@gmail.com</a></li>
+          <li><span class="fi">🌐</span><a href="https://www.dipvisioninfotech.com" target="_blank">www.dipvisioninfotech.com</a></li>
+          <li><span class="fi">📞</span><span>+91 7003459343</span></li>
+          <li><span class="fi" style="color:#0077b5;">in</span><a href="https://linkedin.com" target="_blank">DIPVISION INFOTECH</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p data-i18n="footer_copy">© 2026 DipVision Infotech. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ══════════════════════════════════════════════
+   TRANSLATION DATA
+══════════════════════════════════════════════ */
+const translations = {
+  en: {
+    nav_sub:"Infotech Solution Pvt. Ltd.", nav_home:"Home", nav_about:"About", nav_services:"Services", nav_products:"Products", nav_career:"Career", nav_contact:"Contact us", signin_btn:"Sign In", back_to_site:"Back to Website",
+    signin_welcome:"Welcome back", signin_sub:"Sign in to your Dipvision account to continue", signin_email_label:"EMAIL ADDRESS", signin_email_ph:"you@example.com", signin_pass_label:"PASSWORD", signin_pass_ph:"Enter your password", signin_remember:"Remember me", signin_forgot:"Forgot password?", signin_or:"or continue with", signin_no_account:'Don\'t have an account? <a href="#" onclick="openRegisterPage(); return false;">Create one free</a>', signin_f1:"Secure & encrypted", signin_f2:"Instant access", signin_f3:"All your projects",
+    hero_title:"Welcome to Dipvision", hero_sub:"We craft intelligent, scalable, and secure digital solutions tailored for your business growth.", hero_btn1:"Explore Our Services", hero_btn2:"Get in Touch",
+    about_title:"Who We Are", about_tagline:"Empowering ideas with technology, innovation, and integrity.", about_p1:"At Dipvision Infotech Solution Pvt. Ltd., we're more than just a tech company — we're your digital innovation partners. We specialize in crafting future-ready software, mobile apps, and digital solutions that drive growth, efficiency, and transformation.", about_p2:"Our team blends technical expertise with creative strategy to deliver intuitive user experiences, scalable architectures, and intelligent automation powered by modern technologies such as AI, cloud computing, and cross-platform development.", about_p3:"Whether you're a startup or an enterprise, we help you unlock new opportunities, streamline operations, and stay ahead of the curve.", about_closing:"Let's shape the future of digital, together.", about_chart_label:"Performance Analytics",
+    srv_title:"Services Offered", srv_subtitle:"We provide a wide range of digital solutions to help your business grow and succeed in the digital world.",
+    srv1_title:"Mobile App Development", srv1_desc:"We specialize in developing custom Android and iOS applications tailored to your business needs. Whether it's a native app using Kotlin or Swift, or a cross-platform solution built with Flutter, our team ensures seamless performance and an intuitive user experience.",
+    srv2_title:"Web Development", srv2_desc:"Our web development services cover everything from responsive single-page websites to complex full-stack applications. Using modern frameworks like React, Node.js, Python, and .NET, we build scalable, secure, and high-performance web solutions.",
+    srv3_title:"Web Design", srv3_desc:"We design clean, modern, and user-focused websites that not only look great but function seamlessly across devices. Our mobile-first design approach ensures optimal performance on any screen size.",
+    srv4_title:"Software Development", srv4_desc:"From concept to deployment, we offer custom software development services that solve real-world business challenges. Our team builds scalable ERP, CRM, and inventory management systems tailored to your operations.",
+    srv5_title:"Game Development", srv5_desc:"We create engaging 2D and 3D games using powerful engines like Unity and Unreal Engine. Whether it's for mobile, web, or desktop, our game development team focuses on immersive gameplay and stunning visuals.",
+    srv6_title:"App Design", srv6_desc:"Our app design services focus on creating intuitive, beautiful, and functional user interfaces. We design high-fidelity UI mockups, streamline user flows, and build design systems that ensure consistency across platforms.",
+    srv7_title:"Website and App Maintenance", srv7_desc:"We provide ongoing website and application maintenance to ensure stability, security, and performance. This includes real-time monitoring, bug fixes, content updates, and version upgrades.",
+    srv8_title:"Digital Marketing", srv8_desc:"We provide comprehensive digital marketing services to help your brand reach and engage your target audience effectively. From SEO and social media marketing to content creation and paid advertising campaigns.",
+    srv9_title:"Domain and Hosting Services", srv9_desc:"We offer complete domain registration and hosting solutions for businesses of all sizes. From securing your domain to setting up cloud-based hosting environments, we ensure your site stays fast, safe, and online.",
+    prod_title:"Our Products", tag_mobile:"MOBILE APP", tag_web:"WEB APPLICATION",
+    prod1_desc:"Puja Path is a comprehensive digital platform tailored to meet all your spiritual needs. Whether you are looking for daily rituals, specialized puja arrangements, or spiritual guidance, our application brings it all to your fingertips.",
+    prod2_desc:"Tax Utsav is an intuitive mobile application designed to simplify tax calculation, planning, and filing for individuals and businesses. The app features real-time tax calculators, document organizers, and expert financial guidance.",
+    prod3_desc:"Mool CDC App is a specialised child development centre dedicated to supporting children with autism, speech delays, and other developmental challenges. Our mission is to empower every child to reach their full potential.",
+    prod4_desc:"Shoplinemart represents the next generation of e-commerce web applications, delivering a flawless and engaging shopping experience. Built with modern web technologies, the platform offers lightning-fast performance.",
+    prod5_desc:"Dishika Tour and Travels is your premier digital gateway to discovering, planning, and booking extraordinary journeys. This dynamic web application offers users a seamless way to explore exotic destinations.",
+    btn_playstore:"▶ Get it on Play Store", btn_website:"🌐 Visit Website", btn_knowmore:"ℹ Know More",
+    contact_title:"Request for Services", contact_subtitle:"We've driven growth and purposeful transformation across every industry. Tell us a bit about yourself, so we can get the ball rolling.",
+    form_fname:"First Name", form_fname_ph:"First name", form_lname:"Last Name", form_lname_ph:"Last name", form_email:"Email", form_email_ph:"your@email.com", form_phone:"Contact Number", form_phone_ph:"+91 00000 00000", form_region:"Select Region", form_region_ph:"Choose region", form_org:"Organization / Company", form_inquiry:"Inquiry Type", form_inquiry_ph:"Choose inquiry type", form_general:"General Inquiry", form_msg:"Your Message", form_msg_ph:"Tell us about your project...", form_privacy:"I agree to the Privacy Policy and data processing.", form_submit:"Submit Request",
+    career_title:"Join Our Team", career_subtitle:"Dipvision Infotech fosters innovation and creativity. We welcome passionate professionals and freshers looking to grow in the IT industry.", career_culture:"Dipvision endeavours to create a world a software professional dreams of — a company driven by passion, commitment to excellence, and a fierce intent to do the right thing. We welcome game changers, culture lovers, and mavericks.", career_slogan:"TOGETHER WE RISE, TOGETHER WE WIN.",
+    job1:"Kotlin Developer (Android)", job1_desc:"We're looking for a passionate Kotlin developer to build high-quality native Android apps. Strong knowledge of Android SDK, Jetpack Compose, and REST APIs required.",
+    job2:"Flutter Developer (Mobile & Web)", job2_desc:"Build cross-platform apps for iOS, Android, and Web using Flutter. Experience with Dart, state management (Bloc/Provider), and Firebase is a plus.",
+    job3:"NodeJS Developer", job3_desc:"Develop scalable backend services using Node.js and Express. Experience with MongoDB, REST APIs, and cloud deployment preferred.",
+    job4:"Internship Programs (Final Year Students)", job4_desc:"We offer internship opportunities for final-year B.Tech/MCA students across development, design, and digital marketing domains.",
+    job5:"Python Developer", job5_desc:"Develop backend systems and automation scripts using Python. Knowledge of Django/Flask, APIs, and SQL/NoSQL databases required.",
+    job6:".NET Developer", job6_desc:"Build enterprise applications using .NET Core and C#. Experience with ASP.NET MVC, Entity Framework, and SQL Server highly valued.",
+    job7:"C# Developer", job7_desc:"Work on desktop and enterprise software using C#. Strong OOP fundamentals and experience with WPF/WinForms is a bonus.",
+    job8:"React Developer", job8_desc:"Create modern, responsive web applications using React.js. Proficiency in JavaScript/TypeScript, hooks, Redux, and REST API integration required.",
+    job9:"UI/UX Designer", job9_desc:"Design beautiful user-centred interfaces using Figma or Adobe XD. Strong portfolio demonstrating mobile and web design, prototyping, and design systems required.",
+    footer_nav:"Navigation & Quick Links", footer_vision:"Our Vision", footer_about:"About Us", footer_careers:"Careers", footer_products:"Our Product", footer_locations:"Corporate Locations", footer_hq:"Head Office – Delhi", footer_branch:"Branch Office – Kolkata", footer_contact:"Contact & Collaboration", footer_contact_sub:"Want to build something impactful? Let's connect.", footer_copy:"© 2026 DipVision Infotech. All rights reserved."
+  },
+
+  hi: {
+    nav_sub:"इन्फोटेक सॉल्यूशन प्रा. लि.", nav_home:"होम", nav_about:"हमारे बारे में", nav_services:"सेवाएं", nav_products:"उत्पाद", nav_career:"करियर", nav_contact:"संपर्क करें", signin_btn:"साइन इन", back_to_site:"वेबसाइट पर वापस जाएं",
+    signin_welcome:"वापस स्वागत है", signin_sub:"अपने डिपविज़न खाते में साइन इन करें", signin_email_label:"ईमेल पता", signin_email_ph:"आप@उदाहरण.com", signin_pass_label:"पासवर्ड", signin_pass_ph:"अपना पासवर्ड दर्ज करें", signin_remember:"मुझे याद रखें", signin_forgot:"पासवर्ड भूल गए?", signin_or:"या जारी रखें", signin_no_account:'खाता नहीं है? <a href="#">निःशुल्क बनाएं</a>', signin_f1:"सुरक्षित और एन्क्रिप्टेड", signin_f2:"तत्काल पहुंच", signin_f3:"आपके सभी प्रोजेक्ट",
+    hero_title:"डिपविज़न में आपका स्वागत है", hero_sub:"हम आपके व्यवसाय विकास के लिए बुद्धिमान, स्केलेबल और सुरक्षित डिजिटल समाधान तैयार करते हैं।", hero_btn1:"हमारी सेवाएं देखें", hero_btn2:"संपर्क करें",
+    about_title:"हम कौन हैं", about_tagline:"प्रौद्योगिकी, नवाचार और ईमानदारी से विचारों को सशक्त बनाना।", about_p1:"डिपविज़न इन्फोटेक सॉल्यूशन प्रा. लि. में, हम केवल एक टेक कंपनी नहीं हैं — हम आपके डिजिटल इनोवेशन पार्टनर हैं। हम भविष्य के लिए तैयार सॉफ्टवेयर, मोबाइल ऐप और डिजिटल समाधान बनाने में विशेषज्ञ हैं।", about_p2:"हमारी टीम रचनात्मक रणनीति के साथ तकनीकी विशेषज्ञता को मिलाकर AI, क्लाउड कंप्यूटिंग जैसी आधुनिक तकनीकों से बेहतरीन उपयोगकर्ता अनुभव देती है।", about_p3:"चाहे आप स्टार्टअप हों या एंटरप्राइज, हम आपको नए अवसर खोलने, संचालन को सुव्यवस्थित करने और आगे रहने में मदद करते हैं।", about_closing:"चलिए मिलकर डिजिटल का भविष्य बनाते हैं।", about_chart_label:"प्रदर्शन विश्लेषण",
+    srv_title:"हमारी सेवाएं", srv_subtitle:"हम आपके व्यवसाय को डिजिटल दुनिया में बढ़ने और सफल होने में मदद के लिए डिजिटल समाधानों की एक विस्तृत श्रृंखला प्रदान करते हैं।",
+    srv1_title:"मोबाइल ऐप विकास", srv1_desc:"हम आपकी व्यावसायिक आवश्यकताओं के अनुसार कस्टम Android और iOS एप्लिकेशन विकसित करने में विशेषज्ञ हैं। चाहे Kotlin या Swift में नेटिव ऐप हो, या Flutter से क्रॉस-प्लेटफ़ॉर्म समाधान, हमारी टीम सर्वोत्तम प्रदर्शन सुनिश्चित करती है।",
+    srv2_title:"वेब विकास", srv2_desc:"हमारी वेब डेवलपमेंट सेवाएं सिंगल-पेज वेबसाइट से लेकर जटिल फुल-स्टैक एप्लिकेशन तक सब कुछ कवर करती हैं। React, Node.js, Python और .NET जैसे फ्रेमवर्क का उपयोग करके हम स्केलेबल समाधान बनाते हैं।",
+    srv3_title:"वेब डिज़ाइन", srv3_desc:"हम साफ, आधुनिक और उपयोगकर्ता-केंद्रित वेबसाइट डिज़ाइन करते हैं। हमारा मोबाइल-फर्स्ट डिज़ाइन दृष्टिकोण किसी भी स्क्रीन आकार पर इष्टतम प्रदर्शन सुनिश्चित करता है।",
+    srv4_title:"सॉफ्टवेयर विकास", srv4_desc:"अवधारणा से लेकर परिनियोजन तक, हम कस्टम सॉफ्टवेयर विकास सेवाएं प्रदान करते हैं। हमारी टीम आपके संचालन के अनुकूल स्केलेबल ERP, CRM और इन्वेंटरी प्रबंधन प्रणाली बनाती है।",
+    srv5_title:"गेम विकास", srv5_desc:"हम Unity और Unreal Engine जैसे इंजनों का उपयोग करके आकर्षक 2D और 3D गेम बनाते हैं। मोबाइल, वेब या डेस्कटॉप के लिए, हमारी टीम इमर्सिव गेमप्ले पर ध्यान केंद्रित करती है।",
+    srv6_title:"ऐप डिज़ाइन", srv6_desc:"हमारी ऐप डिज़ाइन सेवाएं सहज, सुंदर और कार्यात्मक UI बनाने पर केंद्रित हैं। हम हाई-फिडेलिटी UI मॉकअप डिज़ाइन करते हैं और प्लेटफ़ॉर्म पर एकरूपता सुनिश्चित करते हैं।",
+    srv7_title:"वेबसाइट और ऐप रखरखाव", srv7_desc:"हम स्थिरता, सुरक्षा और प्रदर्शन सुनिश्चित करने के लिए चल रहे रखरखाव प्रदान करते हैं। इसमें रियल-टाइम मॉनिटरिंग, बग फिक्स, कंटेंट अपडेट और वर्जन अपग्रेड शामिल हैं।",
+    srv8_title:"डिजिटल मार्केटिंग", srv8_desc:"हम व्यापक डिजिटल मार्केटिंग सेवाएं प्रदान करते हैं। SEO से सोशल मीडिया मार्केटिंग तक, हम डेटा-संचालित रणनीतियां तैयार करते हैं जो दृश्यता बढ़ाती हैं।",
+    srv9_title:"डोमेन और होस्टिंग सेवाएं", srv9_desc:"हम सभी आकार के व्यवसायों के लिए डोमेन पंजीकरण और होस्टिंग समाधान प्रदान करते हैं। SSL, CDN, DNS कॉन्फ़िगरेशन और नियमित बैकअप के साथ आपकी साइट सुरक्षित रहती है।",
+    prod_title:"हमारे उत्पाद", tag_mobile:"मोबाइल ऐप", tag_web:"वेब एप्लिकेशन",
+    prod1_desc:"पूजा पाथ आपकी सभी आध्यात्मिक आवश्यकताओं को पूरा करने के लिए एक व्यापक डिजिटल प्लेटफ़ॉर्म है। दैनिक अनुष्ठान, विशेष पूजा व्यवस्था या आध्यात्मिक मार्गदर्शन — सब कुछ आपकी उंगलियों पर।",
+    prod2_desc:"टैक्स उत्सव व्यक्तियों और व्यवसायों के लिए कर गणना, योजना और फाइलिंग को सरल बनाने के लिए डिज़ाइन किया गया एक सहज मोबाइल एप्लिकेशन है।",
+    prod3_desc:"मूल CDC ऐप ऑटिज्म, भाषण विलंब और अन्य विकासात्मक चुनौतियों वाले बच्चों का समर्थन करने के लिए एक विशेष बाल विकास केंद्र है।",
+    prod4_desc:"शॉपलाइनमार्ट e-कॉमर्स वेब एप्लिकेशन की अगली पीढ़ी का प्रतिनिधित्व करता है, जो एक निर्बाध शॉपिंग अनुभव प्रदान करता है।",
+    prod5_desc:"दिशिका टूर एंड ट्रेवल्स असाधारण यात्राओं की खोज, योजना और बुकिंग के लिए आपका प्रमुख डिजिटल प्रवेश द्वार है।",
+    btn_playstore:"▶ Play Store पर पाएं", btn_website:"🌐 वेबसाइट देखें", btn_knowmore:"ℹ और जानें",
+    contact_title:"सेवाओं के लिए अनुरोध", contact_subtitle:"हमने हर उद्योग में विकास और परिवर्तन को बढ़ावा दिया है। अपने बारे में थोड़ा बताएं ताकि हम शुरुआत कर सकें।",
+    form_fname:"पहला नाम", form_fname_ph:"पहला नाम", form_lname:"अंतिम नाम", form_lname_ph:"अंतिम नाम", form_email:"ईमेल", form_email_ph:"आपका@ईमेल.com", form_phone:"संपर्क नंबर", form_phone_ph:"+91 00000 00000", form_region:"क्षेत्र चुनें", form_region_ph:"क्षेत्र चुनें", form_org:"संगठन / कंपनी", form_inquiry:"जांच प्रकार", form_inquiry_ph:"जांच प्रकार चुनें", form_general:"सामान्य जांच", form_msg:"आपका संदेश", form_msg_ph:"अपने प्रोजेक्ट के बारे में बताएं...", form_privacy:"मैं गोपनीयता नीति और डेटा प्रोसेसिंग से सहमत हूं।", form_submit:"अनुरोध सबमिट करें",
+    career_title:"हमारी टीम से जुड़ें", career_subtitle:"डिपविज़न इन्फोटेक नवाचार और रचनात्मकता को बढ़ावा देता है। हम IT उद्योग में बढ़ने के इच्छुक भावुक पेशेवरों और फ्रेशर्स का स्वागत करते हैं।", career_culture:"डिपविज़न एक ऐसी दुनिया बनाने का प्रयास करता है जिसका सॉफ्टवेयर पेशेवर सपना देखता है — जुनून, उत्कृष्टता की प्रतिबद्धता और सही काम करने के दृढ़ इरादे से चलने वाली कंपनी।", career_slogan:"साथ उठते हैं, साथ जीतते हैं।",
+    job1:"Kotlin डेवलपर (Android)", job1_desc:"हम उच्च गुणवत्ता वाले नेटिव Android ऐप बनाने के लिए एक भावुक Kotlin डेवलपर की तलाश कर रहे हैं।",
+    job2:"Flutter डेवलपर (मोबाइल & वेब)", job2_desc:"Flutter का उपयोग करके iOS, Android और Web के लिए क्रॉस-प्लेटफ़ॉर्म ऐप बनाएं।",
+    job3:"NodeJS डेवलपर", job3_desc:"Node.js और Express का उपयोग करके स्केलेबल बैकएंड सेवाएं विकसित करें।",
+    job4:"इंटर्नशिप प्रोग्राम (अंतिम वर्ष के छात्र)", job4_desc:"हम विकास, डिज़ाइन और डिजिटल मार्केटिंग क्षेत्रों में अंतिम वर्ष B.Tech/MCA छात्रों के लिए इंटर्नशिप प्रदान करते हैं।",
+    job5:"Python डेवलपर", job5_desc:"Python का उपयोग करके बैकएंड सिस्टम और ऑटोमेशन स्क्रिप्ट विकसित करें।",
+    job6:".NET डेवलपर", job6_desc:".NET Core और C# का उपयोग करके एंटरप्राइज एप्लिकेशन बनाएं।",
+    job7:"C# डेवलपर", job7_desc:"C# का उपयोग करके डेस्कटॉप और एंटरप्राइज सॉफ्टवेयर पर काम करें।",
+    job8:"React डेवलपर", job8_desc:"React.js का उपयोग करके आधुनिक, रेस्पॉन्सिव वेब एप्लिकेशन बनाएं।",
+    job9:"UI/UX डिज़ाइनर", job9_desc:"Figma या Adobe XD का उपयोग करके सुंदर उपयोगकर्ता-केंद्रित इंटरफेस डिज़ाइन करें।",
+    footer_nav:"नेविगेशन और त्वरित लिंक", footer_vision:"हमारी दृष्टि", footer_about:"हमारे बारे में", footer_careers:"करियर", footer_products:"हमारा उत्पाद", footer_locations:"कॉर्पोरेट स्थान", footer_hq:"मुख्यालय – दिल्ली", footer_branch:"शाखा कार्यालय – कोलकाता", footer_contact:"संपर्क और सहयोग", footer_contact_sub:"कुछ प्रभावशाली बनाना चाहते हैं? आइए जुड़ें।", footer_copy:"© 2026 डिपविज़न इन्फोटेक। सर्वाधिकार सुरक्षित।"
+  },
+
+  bn: {
+    nav_sub:"ইনফোটেক সলিউশন প্রাইভেট লিমিটেড", nav_home:"হোম", nav_about:"আমাদের সম্পর্কে", nav_services:"সেবা", nav_products:"পণ্য", nav_career:"ক্যারিয়ার", nav_contact:"যোগাযোগ করুন", signin_btn:"সাইন ইন", back_to_site:"ওয়েবসাইটে ফিরুন",
+    signin_welcome:"আবার স্বাগতম", signin_sub:"আপনার ডিপভিশন অ্যাকাউন্টে সাইন ইন করুন", signin_email_label:"ইমেইল ঠিকানা", signin_email_ph:"আপনি@উদাহরণ.com", signin_pass_label:"পাসওয়ার্ড", signin_pass_ph:"আপনার পাসওয়ার্ড লিখুন", signin_remember:"আমাকে মনে রাখুন", signin_forgot:"পাসওয়ার্ড ভুলে গেছেন?", signin_or:"অথবা চালিয়ে যান", signin_no_account:'অ্যাকাউন্ট নেই? <a href="#">বিনামূল্যে তৈরি করুন</a>', signin_f1:"নিরাপদ ও এনক্রিপ্টেড", signin_f2:"তাৎক্ষণিক অ্যাক্সেস", signin_f3:"আপনার সব প্রজেক্ট",
+    hero_title:"ডিপভিশনে স্বাগতম", hero_sub:"আমরা আপনার ব্যবসার প্রবৃদ্ধির জন্য বুদ্ধিমান, স্কেলযোগ্য এবং সুরক্ষিত ডিজিটাল সমাধান তৈরি করি।", hero_btn1:"আমাদের সেবা দেখুন", hero_btn2:"যোগাযোগ করুন",
+    about_title:"আমরা কারা", about_tagline:"প্রযুক্তি, উদ্ভাবন ও সততার মাধ্যমে ধারণাকে ক্ষমতায়িত করা।", about_p1:"ডিপভিশন ইনফোটেক সলিউশন প্রাইভেট লিমিটেডে আমরা শুধু একটি টেক কোম্পানি নই — আমরা আপনার ডিজিটাল ইনোভেশন পার্টনার। আমরা ভবিষ্যৎমুখী সফটওয়্যার, মোবাইল অ্যাপ ও ডিজিটাল সমাধান তৈরিতে বিশেষজ্ঞ।", about_p2:"আমাদের দল কারিগরি দক্ষতাকে সৃজনশীল কৌশলের সাথে মিলিয়ে AI, ক্লাউড কম্পিউটিং-এর মাধ্যমে অসাধারণ ব্যবহারকারী অভিজ্ঞতা প্রদান করে।", about_p3:"আপনি স্টার্টআপ হোন বা এন্টারপ্রাইজ, আমরা আপনাকে নতুন সুযোগ খুলতে ও এগিয়ে থাকতে সাহায্য করি।", about_closing:"আসুন একসাথে ডিজিটালের ভবিষ্যৎ গড়ি।", about_chart_label:"পারফরম্যান্স বিশ্লেষণ",
+    srv_title:"আমাদের সেবাসমূহ", srv_subtitle:"আমরা আপনার ব্যবসাকে ডিজিটাল বিশ্বে বৃদ্ধি পেতে ও সফল হতে সাহায্য করতে বিস্তৃত ডিজিটাল সমাধান প্রদান করি।",
+    srv1_title:"মোবাইল অ্যাপ ডেভেলপমেন্ট", srv1_desc:"আমরা আপনার ব্যবসার প্রয়োজন অনুযায়ী কাস্টম Android ও iOS অ্যাপ তৈরিতে বিশেষজ্ঞ। Kotlin, Swift বা Flutter — যেকোনো প্ল্যাটফর্মে আমরা নিখুঁত পারফরম্যান্স নিশ্চিত করি।",
+    srv2_title:"ওয়েব ডেভেলপমেন্ট", srv2_desc:"আমাদের ওয়েব ডেভেলপমেন্ট সেবা সিঙ্গেল-পেজ ওয়েবসাইট থেকে জটিল ফুল-স্ট্যাক অ্যাপ্লিকেশন পর্যন্ত সব কিছু কভার করে।",
+    srv3_title:"ওয়েব ডিজাইন", srv3_desc:"আমরা পরিষ্কার, আধুনিক ও ব্যবহারকারী-কেন্দ্রিক ওয়েবসাইট ডিজাইন করি যা দেখতে চমৎকার এবং সব ডিভাইসে নির্বিঘ্নে কাজ করে।",
+    srv4_title:"সফটওয়্যার ডেভেলপমেন্ট", srv4_desc:"ধারণা থেকে স্থাপনা পর্যন্ত আমরা কাস্টম সফটওয়্যার ডেভেলপমেন্ট সেবা প্রদান করি। ERP, CRM ও ইনভেন্টরি ম্যানেজমেন্ট সিস্টেম তৈরিতে আমরা দক্ষ।",
+    srv5_title:"গেম ডেভেলপমেন্ট", srv5_desc:"আমরা Unity ও Unreal Engine ব্যবহার করে আকর্ষণীয় 2D ও 3D গেম তৈরি করি। মোবাইল, ওয়েব বা ডেস্কটপ — যেকোনো প্ল্যাটফর্মে।",
+    srv6_title:"অ্যাপ ডিজাইন", srv6_desc:"আমাদের অ্যাপ ডিজাইন সেবা সহজাত, সুন্দর ও কার্যকরী UI তৈরিতে মনোনিবেশ করে। হাই-ফিডেলিটি মকআপ থেকে শুরু করে ডিজাইন সিস্টেম পর্যন্ত।",
+    srv7_title:"ওয়েবসাইট ও অ্যাপ রক্ষণাবেক্ষণ", srv7_desc:"আমরা স্থিতিশীলতা, নিরাপত্তা ও কার্যক্ষমতা নিশ্চিত করতে চলমান রক্ষণাবেক্ষণ প্রদান করি। বাগ ফিক্স, কন্টেন্ট আপডেট ও ভার্সন আপগ্রেড সহ।",
+    srv8_title:"ডিজিটাল মার্কেটিং", srv8_desc:"আমরা SEO, সোশ্যাল মিডিয়া মার্কেটিং থেকে পেইড বিজ্ঞাপন পর্যন্ত ব্যাপক ডিজিটাল মার্কেটিং সেবা প্রদান করি।",
+    srv9_title:"ডোমেইন ও হোস্টিং সেবা", srv9_desc:"সব আকারের ব্যবসার জন্য ডোমেইন নিবন্ধন ও হোস্টিং সমাধান প্রদান করি। SSL, CDN, DNS কনফিগারেশন ও নিয়মিত ব্যাকআপ সহ।",
+    prod_title:"আমাদের পণ্যসমূহ", tag_mobile:"মোবাইল অ্যাপ", tag_web:"ওয়েব অ্যাপ্লিকেশন",
+    prod1_desc:"পূজা পাথ আপনার সমস্ত আধ্যাত্মিক চাহিদা পূরণের জন্য একটি ব্যাপক ডিজিটাল প্ল্যাটফর্ম। দৈনিক আচার থেকে বিশেষ পূজার ব্যবস্থা — সব কিছু আপনার আঙুলের ডগায়।",
+    prod2_desc:"ট্যাক্স উৎসব ব্যক্তি ও ব্যবসার জন্য কর গণনা, পরিকল্পনা ও ফাইলিং সহজ করার জন্য একটি সহজাত মোবাইল অ্যাপ।",
+    prod3_desc:"মূল CDC অ্যাপ অটিজম, বক্তৃতা বিলম্ব ও অন্যান্য উন্নয়নমূলক চ্যালেঞ্জ সহ শিশুদের সহায়তার জন্য একটি বিশেষ শিশু উন্নয়ন কেন্দ্র।",
+    prod4_desc:"শপলাইনমার্ট ই-কমার্স ওয়েব অ্যাপ্লিকেশনের পরবর্তী প্রজন্মের প্রতিনিধিত্ব করে, একটি নিখুঁত শপিং অভিজ্ঞতা প্রদান করে।",
+    prod5_desc:"দিশিকা ট্যুর অ্যান্ড ট্র্যাভেলস অসাধারণ যাত্রা আবিষ্কার, পরিকল্পনা ও বুকিংয়ের জন্য আপনার প্রিমিয়ার ডিজিটাল গেটওয়ে।",
+    btn_playstore:"▶ Play Store থেকে নিন", btn_website:"🌐 ওয়েবসাইট দেখুন", btn_knowmore:"ℹ আরও জানুন",
+    contact_title:"সেবার জন্য অনুরোধ", contact_subtitle:"আমরা প্রতিটি শিল্পে বৃদ্ধি ও রূপান্তর চালিয়েছি। নিজের সম্পর্কে একটু বলুন যাতে আমরা শুরু করতে পারি।",
+    form_fname:"প্রথম নাম", form_fname_ph:"প্রথম নাম", form_lname:"শেষ নাম", form_lname_ph:"শেষ নাম", form_email:"ইমেইল", form_email_ph:"আপনার@ইমেইল.com", form_phone:"যোগাযোগ নম্বর", form_phone_ph:"+91 00000 00000", form_region:"অঞ্চল নির্বাচন করুন", form_region_ph:"অঞ্চল বেছে নিন", form_org:"সংগঠন / কোম্পানি", form_inquiry:"অনুসন্ধানের ধরন", form_inquiry_ph:"অনুসন্ধানের ধরন বেছে নিন", form_general:"সাধারণ অনুসন্ধান", form_msg:"আপনার বার্তা", form_msg_ph:"আপনার প্রজেক্ট সম্পর্কে বলুন...", form_privacy:"আমি গোপনীয়তা নীতি ও ডেটা প্রক্রিয়াকরণে সম্মত।", form_submit:"অনুরোধ জমা দিন",
+    career_title:"আমাদের দলে যোগ দিন", career_subtitle:"ডিপভিশন ইনফোটেক উদ্ভাবন ও সৃজনশীলতাকে উৎসাহিত করে। আমরা IT শিল্পে বাড়তে ইচ্ছুক উৎসাহী পেশাদার ও নতুনদের স্বাগত জানাই।", career_culture:"ডিপভিশন এমন একটি বিশ্ব তৈরির চেষ্টা করে যার স্বপ্ন একজন সফটওয়্যার পেশাদার দেখেন — আবেগ, উৎকর্ষতার প্রতিশ্রুতি ও সঠিক কাজ করার দৃঢ় সংকল্পে পরিচালিত একটি কোম্পানি।", career_slogan:"একসাথে উঠি, একসাথে জিতি।",
+    job1:"Kotlin ডেভেলপার (Android)", job1_desc:"উচ্চমানের নেটিভ Android অ্যাপ তৈরির জন্য একজন উৎসাহী Kotlin ডেভেলপার খুঁজছি।",
+    job2:"Flutter ডেভেলপার (মোবাইল & ওয়েব)", job2_desc:"Flutter ব্যবহার করে iOS, Android ও Web-এর জন্য ক্রস-প্ল্যাটফর্ম অ্যাপ তৈরি করুন।",
+    job3:"NodeJS ডেভেলপার", job3_desc:"Node.js ও Express ব্যবহার করে স্কেলযোগ্য ব্যাকএন্ড সেবা তৈরি করুন।",
+    job4:"ইন্টার্নশিপ প্রোগ্রাম (চূড়ান্ত বর্ষের শিক্ষার্থী)", job4_desc:"ডেভেলপমেন্ট, ডিজাইন ও ডিজিটাল মার্কেটিং ক্ষেত্রে চূড়ান্ত বর্ষের B.Tech/MCA শিক্ষার্থীদের জন্য ইন্টার্নশিপ।",
+    job5:"Python ডেভেলপার", job5_desc:"Python ব্যবহার করে ব্যাকএন্ড সিস্টেম ও অটোমেশন স্ক্রিপ্ট তৈরি করুন।",
+    job6:".NET ডেভেলপার", job6_desc:".NET Core ও C# ব্যবহার করে এন্টারপ্রাইজ অ্যাপ্লিকেশন তৈরি করুন।",
+    job7:"C# ডেভেলপার", job7_desc:"C# ব্যবহার করে ডেস্কটপ ও এন্টারপ্রাইজ সফটওয়্যারে কাজ করুন।",
+    job8:"React ডেভেলপার", job8_desc:"React.js ব্যবহার করে আধুনিক, রেসপন্সিভ ওয়েব অ্যাপ্লিকেশন তৈরি করুন।",
+    job9:"UI/UX ডিজাইনার", job9_desc:"Figma বা Adobe XD ব্যবহার করে সুন্দর ব্যবহারকারী-কেন্দ্রিক ইন্টারফেস ডিজাইন করুন।",
+    footer_nav:"নেভিগেশন ও দ্রুত লিংক", footer_vision:"আমাদের দৃষ্টিভঙ্গি", footer_about:"আমাদের সম্পর্কে", footer_careers:"ক্যারিয়ার", footer_products:"আমাদের পণ্য", footer_locations:"কর্পোরেট অবস্থান", footer_hq:"প্রধান কার্যালয় – দিল্লি", footer_branch:"শাখা কার্যালয় – কলকাতা", footer_contact:"যোগাযোগ ও সহযোগিতা", footer_contact_sub:"প্রভাবশালী কিছু তৈরি করতে চান? আসুন যুক্ত হই।", footer_copy:"© ২০২৬ ডিপভিশন ইনফোটেক। সর্বস্বত্ব সংরক্ষিত।"
+  },
+
+  ta: {
+    nav_sub:"இன்போடெக் சொல்யூஷன்ஸ் பிரைவேட் லிமிடெட்", nav_home:"முகப்பு", nav_about:"எங்களை பற்றி", nav_services:"சேவைகள்", nav_products:"தயாரிப்புகள்", nav_career:"வாழ்க்கை வாய்ப்பு", nav_contact:"தொடர்பு கொள்ளுங்கள்", signin_btn:"உள்நுழை", back_to_site:"இணையதளத்திற்கு திரும்பு",
+    signin_welcome:"மீண்டும் வரவேற்கிறோம்", signin_sub:"உங்கள் டிப்விஷன் கணக்கில் உள்நுழையுங்கள்", signin_email_label:"மின்னஞ்சல் முகவரி", signin_email_ph:"நீங்கள்@உதாரணம்.com", signin_pass_label:"கடவுச்சொல்", signin_pass_ph:"உங்கள் கடவுச்சொல்லை உள்ளிடுங்கள்", signin_remember:"என்னை நினைவில் வையுங்கள்", signin_forgot:"கடவுச்சொல் மறந்துவிட்டீர்களா?", signin_or:"அல்லது தொடரவும்", signin_no_account:'கணக்கு இல்லையா? <a href="#">இலவசமாக உருவாக்குங்கள்</a>', signin_f1:"பாதுகாப்பான & மறையாக்கப்பட்டது", signin_f2:"உடனடி அணுகல்", signin_f3:"உங்கள் அனைத்து திட்டங்கள்",
+    hero_title:"டிப்விஷனுக்கு வரவேற்கிறோம்", hero_sub:"உங்கள் வணிக வளர்ச்சிக்காக நாங்கள் புத்திசாலித்தனமான, அளவிடக்கூடிய மற்றும் பாதுகாப்பான டிஜிட்டல் தீர்வுகளை உருவாக்குகிறோம்.", hero_btn1:"எங்கள் சேவைகளை ஆராயுங்கள்", hero_btn2:"தொடர்பு கொள்ளுங்கள்",
+    about_title:"நாங்கள் யார்", about_tagline:"தொழில்நுட்பம், கண்டுபிடிப்பு மற்றும் நேர்மையால் யோசனைகளை வலுப்படுத்துதல்.", about_p1:"டிப்விஷன் இன்போடெக் சொல்யூஷன்ஸ் பிரைவேட் லிமிடெட்டில், நாங்கள் ஒரு தொழில்நுட்ப நிறுவனம் மட்டுமல்ல — உங்கள் டிஜிட்டல் புதுமை கூட்டாளர்கள். எதிர்காலத்திற்கு தயாரான மென்பொருள், மொபைல் ஆப் மற்றும் டிஜிட்டல் தீர்வுகளை உருவாக்குவதில் நாங்கள் நிபுணர்கள்.", about_p2:"AI, கிளவுட் கம்ப்யூட்டிங் போன்ற நவீன தொழில்நுட்பங்களைப் பயன்படுத்தி சிறந்த பயனர் அனுபவங்களை வழங்க நமது குழு தொழில்நுட்ப நிபுணத்துவத்தை படைப்பு உத்தியுடன் இணைக்கிறது.", about_p3:"நீங்கள் ஒரு ஸ்டார்ட்-அப் அல்லது நிறுவனமாக இருந்தாலும், புதிய வாய்ப்புகளை திறக்க, செயல்பாடுகளை நெறிப்படுத்த மற்றும் முன்னிலையில் இருக்க உதவுகிறோம்.", about_closing:"டிஜிட்டலின் எதிர்காலத்தை ஒன்றாக உருவாக்குவோம்.", about_chart_label:"செயல்திறன் பகுப்பாய்வு",
+    srv_title:"சேவைகள் வழங்கப்படுகின்றன", srv_subtitle:"உங்கள் வணிகம் டிஜிட்டல் உலகில் வளர உதவ பரந்த அளவிலான டிஜிட்டல் தீர்வுகளை வழங்குகிறோம்.",
+    srv1_title:"மொபைல் ஆப் மேம்பாடு", srv1_desc:"உங்கள் வணிக தேவைகளுக்கு ஏற்ப Android மற்றும் iOS பயன்பாடுகளை உருவாக்குவதில் நாங்கள் நிபுணர்கள்.",
+    srv2_title:"வலை மேம்பாடு", srv2_desc:"React, Node.js, Python, .NET போன்ற நவீன கட்டமைப்புகளைப் பயன்படுத்தி அளவிடக்கூடிய வலை தீர்வுகளை உருவாக்குகிறோம்.",
+    srv3_title:"வலை வடிவமைப்பு", srv3_desc:"அனைத்து சாதனங்களிலும் சிறப்பாக செயல்படும் தூய்மையான, நவீன மற்றும் பயனர் மையமான இணையதளங்களை வடிவமைக்கிறோம்.",
+    srv4_title:"மென்பொருள் மேம்பாடு", srv4_desc:"கருத்தாக்கம் முதல் வரிசைப்படுத்தல் வரை, நிஜ உலக வணிக சவால்களை தீர்க்கும் தனிப்பயன் மென்பொருள் மேம்பாட்டு சேவைகளை வழங்குகிறோம்.",
+    srv5_title:"கேம் மேம்பாடு", srv5_desc:"Unity மற்றும் Unreal Engine போன்ற சக்திவாய்ந்த என்ஜின்களைப் பயன்படுத்தி 2D மற்றும் 3D கேம்களை உருவாக்குகிறோம்.",
+    srv6_title:"ஆப் வடிவமைப்பு", srv6_desc:"உள்ளுணர்வு, அழகான மற்றும் செயல்பாட்டு UI உருவாக்குவதில் கவனம் செலுத்துகிறோம். ஹை-ஃபிடெலிட்டி மாக்-அப்கள் மற்றும் டிசைன் சிஸ்டம்களை உருவாக்குகிறோம்.",
+    srv7_title:"இணையதளம் & ஆப் பராமரிப்பு", srv7_desc:"நிலைத்தன்மை, பாதுகாப்பு மற்றும் செயல்திறன் உறுதிப்படுத்த தொடர்ந்து பராமரிப்பு வழங்குகிறோம்.",
+    srv8_title:"டிஜிட்டல் மார்க்கெட்டிங்", srv8_desc:"SEO மற்றும் சமூக ஊடக மார்க்கெட்டிங் முதல் கட்டண விளம்பர பிரச்சாரங்கள் வரை விரிவான சேவைகளை வழங்குகிறோம்.",
+    srv9_title:"டொமைன் & ஹோஸ்டிங் சேவைகள்", srv9_desc:"அனைத்து அளவிலான வணிகங்களுக்கும் டொமைன் பதிவு மற்றும் ஹோஸ்டிங் தீர்வுகளை வழங்குகிறோம்.",
+    prod_title:"எங்கள் தயாரிப்புகள்", tag_mobile:"மொபைல் ஆப்", tag_web:"வலை பயன்பாடு",
+    prod1_desc:"பூஜா பாத் உங்கள் அனைத்து ஆன்மீக தேவைகளையும் பூர்த்தி செய்ய ஒரு விரிவான டிஜிட்டல் தளம்.", prod2_desc:"டாக்ஸ் உத்சவ் தனிநபர்கள் மற்றும் வணிகங்களுக்கு வரி கணக்கீட்டை எளிதாக்க வடிவமைக்கப்பட்டது.", prod3_desc:"மூல CDC ஆட்டிஸம், பேச்சு தாமதம் மற்றும் வளர்ச்சி சவால்கள் உள்ள குழந்தைகளுக்கு ஆதரவு.", prod4_desc:"ஷாப்லைன்மார்ட் e-காமர்ஸ் வலை பயன்பாடுகளின் அடுத்த தலைமுறையை பிரதிநிதித்துவப்படுத்துகிறது.", prod5_desc:"திஷிகா டூர் அண்ட் ட்ராவல்ஸ் அசாதாரண பயணங்களைக் கண்டறிய, திட்டமிட, முன்பதிவு செய்ய உங்கள் டிஜிட்டல் நுழைவாயில்.",
+    btn_playstore:"▶ Play Store-ல் பெறுங்கள்", btn_website:"🌐 இணையதளம் பார்க்க", btn_knowmore:"ℹ மேலும் அறியுங்கள்",
+    contact_title:"சேவைகளுக்கான கோரிக்கை", contact_subtitle:"நாங்கள் ஒவ்வொரு தொழிலிலும் வளர்ச்சியை உந்தியிருக்கிறோம். தொடங்குவதற்கு உங்களைப் பற்றி சொல்லுங்கள்.",
+    form_fname:"முதல் பெயர்", form_fname_ph:"முதல் பெயர்", form_lname:"கடைசி பெயர்", form_lname_ph:"கடைசி பெயர்", form_email:"மின்னஞ்சல்", form_email_ph:"உங்கள்@மின்னஞ்சல்.com", form_phone:"தொடர்பு எண்", form_phone_ph:"+91 00000 00000", form_region:"பகுதி தேர்வு செய்யுங்கள்", form_region_ph:"பகுதியை தேர்வு செய்யுங்கள்", form_org:"நிறுவனம் / நிறுவனம்", form_inquiry:"விசாரணை வகை", form_inquiry_ph:"விசாரணை வகையை தேர்வு செய்யுங்கள்", form_general:"பொது விசாரணை", form_msg:"உங்கள் செய்தி", form_msg_ph:"உங்கள் திட்டத்தைப் பற்றி சொல்லுங்கள்...", form_privacy:"தனியுரிமை கொள்கை மற்றும் தரவு செயலாக்கத்திற்கு நான் ஒப்புக்கொள்கிறேன்.", form_submit:"கோரிக்கையை சமர்ப்பிக்கவும்",
+    career_title:"எங்கள் குழுவில் சேருங்கள்", career_subtitle:"டிப்விஷன் இன்போடெக் கண்டுபிடிப்பு மற்றும் படைப்பாற்றலை ஊக்குவிக்கிறது.", career_culture:"டிப்விஷன் ஒரு மென்பொருள் வல்லுனர் கனவு காணும் உலகை உருவாக்க முயற்சிக்கிறது.", career_slogan:"ஒன்றாக எழுகிறோம், ஒன்றாக வெல்கிறோம்.",
+    job1:"Kotlin டெவலப்பர் (Android)", job1_desc:"உயர்தர நேட்டிவ் Android ஆப்களை உருவாக்க ஆர்வமுள்ள Kotlin டெவலப்பரை தேடுகிறோம்.",
+    job2:"Flutter டெவலப்பர் (மொபைல் & வலை)", job2_desc:"Flutter பயன்படுத்தி iOS, Android மற்றும் Web-க்கான ஆப்களை உருவாக்குங்கள்.",
+    job3:"NodeJS டெவலப்பர்", job3_desc:"Node.js மற்றும் Express பயன்படுத்தி அளவிடக்கூடிய backend சேவைகளை உருவாக்குங்கள்.",
+    job4:"இன்டர்ன்ஷிப் நிரல்கள் (இறுதி ஆண்டு மாணவர்கள்)", job4_desc:"இறுதி ஆண்டு B.Tech/MCA மாணவர்களுக்கு இன்டர்ன்ஷிப் வாய்ப்புகள்.",
+    job5:"Python டெவலப்பர்", job5_desc:"Python பயன்படுத்தி backend சிஸ்டம்கள் மற்றும் ஆட்டோமேஷன் ஸ்கிரிப்ட்களை உருவாக்குங்கள்.",
+    job6:".NET டெவலப்பர்", job6_desc:".NET Core மற்றும் C# பயன்படுத்தி என்டர்பிரைஸ் ஆப்லிகேஷன்கள் உருவாக்குங்கள்.",
+    job7:"C# டெவலப்பர்", job7_desc:"C# பயன்படுத்தி டெஸ்க்டாப் மற்றும் என்டர்பிரைஸ் சாஃப்ட்வேரில் பணியாற்றுங்கள்.",
+    job8:"React டெவலப்பர்", job8_desc:"React.js பயன்படுத்தி நவீன வலை ஆப்லிகேஷன்கள் உருவாக்குங்கள்.",
+    job9:"UI/UX டிசைனர்", job9_desc:"Figma அல்லது Adobe XD பயன்படுத்தி அழகான UI இடைமுகங்களை வடிவமையுங்கள்.",
+    footer_nav:"வழிசெலுத்தல் & விரைவு இணைப்புகள்", footer_vision:"எங்கள் பார்வை", footer_about:"எங்களைப் பற்றி", footer_careers:"வாழ்க்கை வாய்ப்பு", footer_products:"எங்கள் தயாரிப்பு", footer_locations:"கார்ப்பரேட் இடங்கள்", footer_hq:"தலைமை அலுவலகம் – டெல்லி", footer_branch:"கிளை அலுவலகம் – கொல்கத்தா", footer_contact:"தொடர்பு & ஒத்துழைப்பு", footer_contact_sub:"ஏதாவது தாக்கமான ஒன்றை உருவாக்க விரும்புகிறீர்களா? தொடர்புகொள்வோம்.", footer_copy:"© 2026 டிப்விஷன் இன்போடெக். அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டுள்ளன."
+  },
+
+  te: {
+    nav_sub:"ఇన్ఫోటెక్ సొల్యూషన్ ప్రైవేట్ లిమిటెడ్", nav_home:"హోమ్", nav_about:"మా గురించి", nav_services:"సేవలు", nav_products:"ఉత్పత్తులు", nav_career:"కెరీర్", nav_contact:"సంప్రదించండి", signin_btn:"సైన్ ఇన్", back_to_site:"వెబ్‌సైట్‌కి తిరిగి వెళ్ళు",
+    signin_welcome:"తిరిగి స్వాగతం", signin_sub:"మీ డిప్‌విజన్ ఖాతాలో సైన్ ఇన్ చేయండి", signin_email_label:"ఇమెయిల్ చిరునామా", signin_email_ph:"మీరు@ఉదాహరణ.com", signin_pass_label:"పాస్‌వర్డ్", signin_pass_ph:"మీ పాస్‌వర్డ్ నమోదు చేయండి", signin_remember:"నన్ను గుర్తుంచుకో", signin_forgot:"పాస్‌వర్డ్ మర్చిపోయారా?", signin_or:"లేదా కొనసాగించు", signin_no_account:'ఖాతా లేదా? <a href="#">ఉచితంగా సృష్టించండి</a>', signin_f1:"సురక్షితం & గుప్తీకృతం", signin_f2:"తక్షణ యాక్సెస్", signin_f3:"మీ అన్ని ప్రాజెక్టులు",
+    hero_title:"డిప్‌విజన్‌కి స్వాగతం", hero_sub:"మేము మీ వ్యాపార వృద్ధికి తెలివైన, స్కేలబుల్ మరియు సురక్షితమైన డిజిటల్ పరిష్కారాలను రూపొందిస్తాము.", hero_btn1:"మా సేవలను అన్వేషించండి", hero_btn2:"సంప్రదించండి",
+    about_title:"మేము ఎవరు", about_tagline:"సాంకేతికత, ఆవిష్కరణ మరియు నిజాయితీతో ఆలోచనలను శక్తివంతం చేయడం.", about_p1:"డిప్‌విజన్ ఇన్ఫోటెక్ సొల్యూషన్ ప్రై. లిమిటెడ్‌లో, మేము కేవలం టెక్ కంపెనీ మాత్రమే కాదు — మేము మీ డిజిటల్ ఇన్నోవేషన్ పార్టనర్లం. భవిష్యత్తుకు సిద్ధంగా ఉన్న సాఫ్ట్‌వేర్, మొబైల్ యాప్‌లు మరియు డిజిటల్ పరిష్కారాలను రూపొందించడంలో మేము నిపుణులం.", about_p2:"AI, క్లౌడ్ కంప్యూటింగ్ వంటి ఆధునిక సాంకేతికతలతో అద్భుతమైన వినియోగదారు అనుభవాలను అందించేందుకు మా బృందం సాంకేతిక నైపుణ్యాన్ని సృజనాత్మక వ్యూహంతో మిళితం చేస్తుంది.", about_p3:"మీరు స్టార్టప్ అయినా లేదా ఎంటర్‌ప్రైజ్ అయినా, కొత్త అవకాశాలను తెరవడానికి, కార్యకలాపాలను క్రమబద్ధీకరించడానికి మేము సహాయపడతాం.", about_closing:"డిజిటల్ భవిష్యత్తును కలిసి రూపొందిద్దాం.", about_chart_label:"పనితీరు విశ్లేషణ",
+    srv_title:"అందించే సేవలు", srv_subtitle:"మీ వ్యాపారం డిజిటల్ ప్రపంచంలో వృద్ధి చెందడానికి మేము విస్తృతమైన డిజిటల్ పరిష్కారాలను అందిస్తాము.",
+    srv1_title:"మొబైల్ యాప్ డెవలప్‌మెంట్", srv1_desc:"మీ వ్యాపార అవసరాలకు అనుగుణంగా Android మరియు iOS యాప్‌లను అభివృద్ధి చేయడంలో మేము నిపుణులం.",
+    srv2_title:"వెబ్ డెవలప్‌మెంట్", srv2_desc:"React, Node.js, Python, .NET వంటి ఆధునిక ఫ్రేమ్‌వర్క్‌లతో స్కేలబుల్ వెబ్ పరిష్కారాలను నిర్మిస్తాము.",
+    srv3_title:"వెబ్ డిజైన్", srv3_desc:"అన్ని పరికరాలలో అద్భుతంగా కనిపించి నిర్బాధగా పనిచేసే పరిశుభ్రమైన, ఆధునిక వెబ్‌సైట్‌లను డిజైన్ చేస్తాము.",
+    srv4_title:"సాఫ్ట్‌వేర్ డెవలప్‌మెంట్", srv4_desc:"భావన నుండి అమలు వరకు, నిజ-ప్రపంచ వ్యాపార సవాళ్లను పరిష్కరించే అనుకూల సాఫ్ట్‌వేర్ సేవలను అందిస్తాము.",
+    srv5_title:"గేమ్ డెవలప్‌మెంట్", srv5_desc:"Unity మరియు Unreal Engine వంటి శక్తివంతమైన ఇంజన్‌లతో 2D మరియు 3D గేమ్‌లను రూపొందిస్తాము.",
+    srv6_title:"యాప్ డిజైన్", srv6_desc:"సహజమైన, అందమైన మరియు క్రియాత్మక UI రూపొందించడంపై మా యాప్ డిజైన్ సేవలు దృష్టి పెడతాయి.",
+    srv7_title:"వెబ్‌సైట్ & యాప్ నిర్వహణ", srv7_desc:"స్థిరత్వం, భద్రత మరియు పనితీరు నిర్ధారించేందుకు కొనసాగుతున్న నిర్వహణ అందిస్తాము.",
+    srv8_title:"డిజిటల్ మార్కెటింగ్", srv8_desc:"SEO మరియు సోషల్ మీడియా మార్కెటింగ్ నుండి పెయిడ్ యాడ్ క్యాంపెయిన్‌ల వరకు సమగ్ర సేవలు అందిస్తాము.",
+    srv9_title:"డొమైన్ & హోస్టింగ్ సేవలు", srv9_desc:"అన్ని పరిమాణాల వ్యాపారాలకు డొమైన్ నమోదు మరియు హోస్టింగ్ పరిష్కారాలు అందిస్తాము.",
+    prod_title:"మా ఉత్పత్తులు", tag_mobile:"మొబైల్ యాప్", tag_web:"వెబ్ అప్లికేషన్",
+    prod1_desc:"పూజా పాత్ మీ అన్ని ఆధ్యాత్మిక అవసరాలను తీర్చడానికి ఒక సమగ్ర డిజిటల్ వేదిక.", prod2_desc:"టాక్స్ ఉత్సవ్ వ్యక్తులు మరియు వ్యాపారాల కోసం పన్ను గణనను సులభతరం చేసేందుకు రూపొందించిన మొబైల్ యాప్.", prod3_desc:"మూల CDC ఆటిజం, స్పీచ్ డిలే మరియు ఇతర అభివృద్ధి సవాళ్లతో పిల్లలకు మద్దతు ఇవ్వడానికి అంకితం.", prod4_desc:"షాప్‌లైన్‌మార్ట్ ఇ-కామర్స్ వెబ్ అప్లికేషన్‌ల తదుపరి తరానికి ప్రాతినిధ్యం వహిస్తుంది.", prod5_desc:"దిశిక టూర్ అండ్ ట్రావెల్స్ అసాధారణ ప్రయాణాలను కనుగొనడానికి, ప్లాన్ చేయడానికి మరియు బుక్ చేయడానికి మీ ప్రీమియర్ డిజిటల్ గేట్‌వే.",
+    btn_playstore:"▶ Play Store లో పొందండి", btn_website:"🌐 వెబ్‌సైట్ సందర్శించండి", btn_knowmore:"ℹ మరింత తెలుసుకోండి",
+    contact_title:"సేవల కోసం అభ్యర్థన", contact_subtitle:"మేము ప్రతి పరిశ్రమలో వృద్ధిని నడిపించాము. ప్రారంభించేందుకు మీ గురించి కొంచెం చెప్పండి.",
+    form_fname:"మొదటి పేరు", form_fname_ph:"మొదటి పేరు", form_lname:"చివరి పేరు", form_lname_ph:"చివరి పేరు", form_email:"ఇమెయిల్", form_email_ph:"మీ@ఇమెయిల్.com", form_phone:"సంప్రదింపు సంఖ్య", form_phone_ph:"+91 00000 00000", form_region:"ప్రాంతాన్ని ఎంచుకోండి", form_region_ph:"ప్రాంతాన్ని ఎంచుకోండి", form_org:"సంస్థ / కంపెనీ", form_inquiry:"విచారణ రకం", form_inquiry_ph:"విచారణ రకాన్ని ఎంచుకోండి", form_general:"సాధారణ విచారణ", form_msg:"మీ సందేశం", form_msg_ph:"మీ ప్రాజెక్ట్ గురించి చెప్పండి...", form_privacy:"నేను గోప్యతా విధానం మరియు డేటా ప్రాసెసింగ్‌కు అంగీకరిస్తున్నాను.", form_submit:"అభ్యర్థన సమర్పించండి",
+    career_title:"మా బృందంలో చేరండి", career_subtitle:"డిప్‌విజన్ ఇన్ఫోటెక్ ఆవిష్కరణ మరియు సృజనాత్మకతను ప్రోత్సహిస్తుంది.", career_culture:"డిప్‌విజన్ ఒక సాఫ్ట్‌వేర్ నిపుణుడు కలలు కనే ప్రపంచాన్ని సృష్టించేందుకు ప్రయత్నిస్తుంది.", career_slogan:"కలిసి లేస్తాము, కలిసి గెలుస్తాము.",
+    job1:"Kotlin డెవలపర్ (Android)", job1_desc:"అధిక నాణ్యత నేటివ్ Android యాప్‌లు నిర్మించేందుకు అభిరుచిగల Kotlin డెవలపర్ కోసం వెతుకుతున్నాం.",
+    job2:"Flutter డెవలపర్ (మొబైల్ & వెబ్)", job2_desc:"Flutter ఉపయోగించి iOS, Android మరియు Web కోసం క్రాస్-ప్లాట్‌ఫారమ్ యాప్‌లు నిర్మించండి.",
+    job3:"NodeJS డెవలపర్", job3_desc:"Node.js మరియు Express ఉపయోగించి స్కేలబుల్ బ్యాకెండ్ సేవలు అభివృద్ధి చేయండి.",
+    job4:"ఇంటర్న్‌షిప్ ప్రోగ్రామ్‌లు (చివరి సంవత్సరం విద్యార్థులు)", job4_desc:"చివరి సంవత్సరం B.Tech/MCA విద్యార్థులకు ఇంటర్న్‌షిప్ అవకాశాలు అందుబాటులో ఉన్నాయి.",
+    job5:"Python డెవలపర్", job5_desc:"Python ఉపయోగించి బ్యాకెండ్ సిస్టమ్‌లు మరియు ఆటోమేషన్ స్క్రిప్ట్‌లు అభివృద్ధి చేయండి.",
+    job6:".NET డెవలపర్", job6_desc:".NET Core మరియు C# ఉపయోగించి ఎంటర్‌ప్రైజ్ అప్లికేషన్‌లు నిర్మించండి.",
+    job7:"C# డెవలపర్", job7_desc:"C# ఉపయోగించి డెస్క్‌టాప్ మరియు ఎంటర్‌ప్రైజ్ సాఫ్ట్‌వేర్‌పై పని చేయండి.",
+    job8:"React డెవలపర్", job8_desc:"React.js ఉపయోగించి ఆధునిక వెబ్ అప్లికేషన్‌లు రూపొందించండి.",
+    job9:"UI/UX డిజైనర్", job9_desc:"Figma లేదా Adobe XD ఉపయోగించి అందమైన UI ఇంటర్‌ఫేస్‌లు డిజైన్ చేయండి.",
+    footer_nav:"నావిగేషన్ & త్వరిత లింకులు", footer_vision:"మా దృష్టి", footer_about:"మా గురించి", footer_careers:"కెరీర్", footer_products:"మా ఉత్పత్తి", footer_locations:"కార్పొరేట్ స్థానాలు", footer_hq:"ప్రధాన కార్యాలయం – ఢిల్లీ", footer_branch:"శాఖ కార్యాలయం – కోల్‌కతా", footer_contact:"సంప్రదింపు & సహకారం", footer_contact_sub:"ప్రభావపూరితమైనది నిర్మించాలనుకుంటున్నారా? కలుద్దాం.", footer_copy:"© 2026 డిప్‌విజన్ ఇన్ఫోటెక్. అన్ని హక్కులు మీద ఉన్నాయి."
+  },
+
+  mr: {
+    nav_sub:"इन्फोटेक सोल्युशन प्रायव्हेट लिमिटेड", nav_home:"मुखपृष्ठ", nav_about:"आमच्याबद्दल", nav_services:"सेवा", nav_products:"उत्पादने", nav_career:"करिअर", nav_contact:"संपर्क करा", signin_btn:"साइन इन", back_to_site:"वेबसाइटवर परत जा",
+    signin_welcome:"परत स्वागत आहे", signin_sub:"आपल्या डिपविझन खात्यात साइन इन करा", signin_email_label:"ईमेल पत्ता", signin_email_ph:"तुम्ही@उदाहरण.com", signin_pass_label:"पासवर्ड", signin_pass_ph:"आपला पासवर्ड प्रविष्ट करा", signin_remember:"मला लक्षात ठेवा", signin_forgot:"पासवर्ड विसरलात?", signin_or:"किंवा सुरू ठेवा", signin_no_account:'खाते नाही? <a href="#">मोफत तयार करा</a>', signin_f1:"सुरक्षित आणि एन्क्रिप्टेड", signin_f2:"तात्काळ प्रवेश", signin_f3:"आपले सर्व प्रकल्प",
+    hero_title:"डिपविझनमध्ये आपले स्वागत आहे", hero_sub:"आम्ही आपल्या व्यवसाय वाढीसाठी बुद्धिमान, स्केलेबल आणि सुरक्षित डिजिटल उपाय तयार करतो.", hero_btn1:"आमच्या सेवा पहा", hero_btn2:"संपर्क साधा",
+    about_title:"आम्ही कोण आहोत", about_tagline:"तंत्रज्ञान, नवकल्पना आणि प्रामाणिकतेने कल्पनांना सक्षम बनवणे.", about_p1:"डिपविझन इन्फोटेक सोल्युशन प्रायव्हेट लिमिटेडमध्ये, आम्ही केवळ एक तंत्रज्ञान कंपनी नाही — आम्ही आपले डिजिटल इनोव्हेशन भागीदार आहोत. भविष्यासाठी तयार सॉफ्टवेअर, मोबाइल अॅप्स आणि डिजिटल उपाय तयार करण्यात आम्ही तज्ञ आहोत.", about_p2:"AI, क्लाउड कंप्युटिंग यांसारख्या आधुनिक तंत्रज्ञानाद्वारे उत्कृष्ट वापरकर्ता अनुभव देण्यासाठी आमची टीम तांत्रिक कौशल्यास सर्जनशील धोरणासह एकत्र करते.", about_p3:"आपण स्टार्टअप असाल किंवा एंटरप्राइज असाल, नवीन संधी उघडण्यास, कार्यपद्धती सुव्यवस्थित करण्यास आणि पुढे राहण्यास आम्ही मदत करतो.", about_closing:"चला एकत्र डिजिटलचे भविष्य घडवूया.", about_chart_label:"कार्यप्रदर्शन विश्लेषण",
+    srv_title:"ऑफर केलेल्या सेवा", srv_subtitle:"आपल्या व्यवसायाला डिजिटल जगात वाढण्यास आणि यशस्वी होण्यास मदत करण्यासाठी आम्ही डिजिटल उपायांची विस्तृत श्रेणी प्रदान करतो.",
+    srv1_title:"मोबाइल अॅप विकास", srv1_desc:"आपल्या व्यावसायिक गरजांनुसार Android आणि iOS अॅप्लिकेशन्स विकसित करण्यात आम्ही तज्ञ आहोत.",
+    srv2_title:"वेब विकास", srv2_desc:"React, Node.js, Python, .NET यांसारख्या आधुनिक फ्रेमवर्कचा वापर करून स्केलेबल वेब उपाय तयार करतो.",
+    srv3_title:"वेब डिझाइन", srv3_desc:"सर्व डिव्हाइसेसवर उत्तम दिसणाऱ्या आणि कार्य करणाऱ्या स्वच्छ, आधुनिक वेबसाइट्स डिझाइन करतो.",
+    srv4_title:"सॉफ्टवेअर विकास", srv4_desc:"संकल्पनेपासून तैनातीपर्यंत, वास्तविक व्यावसायिक आव्हाने सोडवणाऱ्या सानुकूल सॉफ्टवेअर सेवा प्रदान करतो.",
+    srv5_title:"गेम विकास", srv5_desc:"Unity आणि Unreal Engine यांसारख्या शक्तिशाली इंजिनांचा वापर करून 2D आणि 3D गेम तयार करतो.",
+    srv6_title:"अॅप डिझाइन", srv6_desc:"सहज, सुंदर आणि कार्यात्मक UI तयार करण्यावर लक्ष केंद्रित करणाऱ्या अॅप डिझाइन सेवा.",
+    srv7_title:"वेबसाइट आणि अॅप देखभाल", srv7_desc:"स्थिरता, सुरक्षा आणि कार्यक्षमता सुनिश्चित करण्यासाठी सतत देखभाल प्रदान करतो.",
+    srv8_title:"डिजिटल मार्केटिंग", srv8_desc:"SEO ते सोशल मीडिया मार्केटिंगपर्यंत सर्वसमावेशक डिजिटल मार्केटिंग सेवा प्रदान करतो.",
+    srv9_title:"डोमेन आणि होस्टिंग सेवा", srv9_desc:"सर्व आकारांच्या व्यवसायांसाठी डोमेन नोंदणी आणि होस्टिंग उपाय प्रदान करतो.",
+    prod_title:"आमची उत्पादने", tag_mobile:"मोबाइल अॅप", tag_web:"वेब अॅप्लिकेशन",
+    prod1_desc:"पूजा पाथ आपल्या सर्व आध्यात्मिक गरजा पूर्ण करण्यासाठी एक सर्वसमावेशक डिजिटल व्यासपीठ आहे.", prod2_desc:"टॅक्स उत्सव व्यक्ती आणि व्यवसायांसाठी कर गणना सुलभ करण्यासाठी डिझाइन केलेले अॅप आहे.", prod3_desc:"मूल CDC ऑटिझम, भाषण विलंब आणि इतर विकासात्मक आव्हानांसह मुलांना पाठिंबा देण्यासाठी समर्पित आहे.", prod4_desc:"शॉपलाइनमार्ट ई-कॉमर्स वेब अॅप्लिकेशनच्या पुढच्या पिढीचे प्रतिनिधित्व करते.", prod5_desc:"दिशिका टूर अँड ट्रॅव्हल्स असाधारण प्रवासांचा शोध घेण्यासाठी, नियोजन करण्यासाठी आपले प्रीमियर डिजिटल प्रवेशद्वार आहे.",
+    btn_playstore:"▶ Play Store वर मिळवा", btn_website:"🌐 वेबसाइट भेट द्या", btn_knowmore:"ℹ अधिक जाणून घ्या",
+    contact_title:"सेवांसाठी विनंती", contact_subtitle:"आम्ही प्रत्येक उद्योगात वाढ आणि परिवर्तन घडवले आहे. सुरुवात करण्यासाठी स्वतःबद्दल थोडे सांगा.",
+    form_fname:"पहिले नाव", form_fname_ph:"पहिले नाव", form_lname:"आडनाव", form_lname_ph:"आडनाव", form_email:"ईमेल", form_email_ph:"तुमचा@ईमेल.com", form_phone:"संपर्क क्रमांक", form_phone_ph:"+91 00000 00000", form_region:"प्रदेश निवडा", form_region_ph:"प्रदेश निवडा", form_org:"संस्था / कंपनी", form_inquiry:"चौकशीचा प्रकार", form_inquiry_ph:"चौकशीचा प्रकार निवडा", form_general:"सामान्य चौकशी", form_msg:"आपला संदेश", form_msg_ph:"आपल्या प्रकल्पाबद्दल सांगा...", form_privacy:"मी गोपनीयता धोरण आणि डेटा प्रक्रियेस सहमत आहे.", form_submit:"विनंती सबमिट करा",
+    career_title:"आमच्या टीममध्ये सामील व्हा", career_subtitle:"डिपविझन इन्फोटेक नावीन्य आणि सर्जनशीलतेला प्रोत्साहन देते.", career_culture:"डिपविझन एक असे जग निर्माण करण्याचा प्रयत्न करते ज्याचे सॉफ्टवेअर व्यावसायिक स्वप्न पाहतात.", career_slogan:"एकत्र उठतो, एकत्र जिंकतो.",
+    job1:"Kotlin डेव्हलपर (Android)", job1_desc:"उच्च दर्जाचे नेटिव्ह Android अॅप्स तयार करण्यासाठी उत्साही Kotlin डेव्हलपर हवा आहे.",
+    job2:"Flutter डेव्हलपर (मोबाइल & वेब)", job2_desc:"Flutter वापरून iOS, Android आणि Web साठी क्रॉस-प्लॅटफॉर्म अॅप्स तयार करा.",
+    job3:"NodeJS डेव्हलपर", job3_desc:"Node.js आणि Express वापरून स्केलेबल बॅकएंड सेवा विकसित करा.",
+    job4:"इंटर्नशिप कार्यक्रम (अंतिम वर्षाचे विद्यार्थी)", job4_desc:"विकास, डिझाइन आणि डिजिटल मार्केटिंगमध्ये अंतिम वर्षाच्या B.Tech/MCA विद्यार्थ्यांसाठी इंटर्नशिप.",
+    job5:"Python डेव्हलपर", job5_desc:"Python वापरून बॅकएंड सिस्टम आणि ऑटोमेशन स्क्रिप्ट विकसित करा.",
+    job6:".NET डेव्हलपर", job6_desc:".NET Core आणि C# वापरून एंटरप्राइज अॅप्लिकेशन्स तयार करा.",
+    job7:"C# डेव्हलपर", job7_desc:"C# वापरून डेस्कटॉप आणि एंटरप्राइज सॉफ्टवेअरवर काम करा.",
+    job8:"React डेव्हलपर", job8_desc:"React.js वापरून आधुनिक वेब अॅप्लिकेशन्स तयार करा.",
+    job9:"UI/UX डिझायनर", job9_desc:"Figma किंवा Adobe XD वापरून सुंदर UI इंटरफेस डिझाइन करा.",
+    footer_nav:"नेव्हिगेशन आणि द्रुत दुवे", footer_vision:"आमचे ध्येय", footer_about:"आमच्याबद्दल", footer_careers:"करिअर", footer_products:"आमचे उत्पादन", footer_locations:"कॉर्पोरेट स्थाने", footer_hq:"मुख्यालय – दिल्ली", footer_branch:"शाखा कार्यालय – कोलकाता", footer_contact:"संपर्क आणि सहकार्य", footer_contact_sub:"काहीतरी प्रभावशाली तयार करायचे आहे? चला जोडूया.", footer_copy:"© 2026 डिपविझन इन्फोटेक. सर्व हक्क राखीव."
+  },
+
+  gu: {
+    nav_sub:"ઇન્ફોટેક સોલ્યુશન પ્રાઇવેટ લિમિટેડ", nav_home:"હોમ", nav_about:"અમારા વિશે", nav_services:"સેવાઓ", nav_products:"ઉત્પાદનો", nav_career:"કારકિર્દી", nav_contact:"સંપર્ક કરો", signin_btn:"સાઇન ઇન", back_to_site:"વેબસાઇટ પર પાછા",
+    signin_welcome:"પાછા સ્વાગત છે", signin_sub:"તમારા ડિપવિઝન એકાઉન્ટમાં સાઇન ઇન કરો", signin_email_label:"ઇમેઇલ સરનામું", signin_email_ph:"તમે@ઉદાહરણ.com", signin_pass_label:"પાસવર્ડ", signin_pass_ph:"તમારો પાસવર્ડ દાખલ કરો", signin_remember:"મને યાદ રાખો", signin_forgot:"પાસવર્ડ ભૂલ્યા?", signin_or:"અથવા ચાલુ રાખો", signin_no_account:'એકાઉન્ટ નથી? <a href="#">મફતમાં બનાવો</a>', signin_f1:"સુરક્ષિત & એન્ક્રિપ્ટ", signin_f2:"તાત્કાલિક ઍક્સેસ", signin_f3:"તમારા બધા પ્રોજેક્ટ",
+    hero_title:"ડિપવિઝનમાં આપનું સ્વાગત છે", hero_sub:"અમે તમારા વ્યવસાય વૃદ્ધિ માટે બુદ્ધિશાળી, સ્કેલેબલ અને સુરક્ષિત ડિજિટલ ઉકેલો બનાવીએ છીએ.", hero_btn1:"અમારી સેવાઓ અન્વેષણ કરો", hero_btn2:"સંપર્ક કરો",
+    about_title:"અમે કોણ છીએ", about_tagline:"ટેક્નોલૉજી, નવીનતા અને પ્રામાણિકતાથી વિચારોને સશક્ત બનાવવા.", about_p1:"ડિપવિઝન ઇન્ફોટેક સોલ્યુશન પ્રા. લિ.માં, અમે ફક્ત ટેક કંપની નથી — અમે તમારા ડિજિટલ ઇનોવેશન ભાગીદારો છીએ. ભવિષ્ય માટે તૈયાર સૉફ્ટવેર, મોબાઇલ ઍપ્સ અને ડિજિટલ ઉકેલ બનાવવામાં અમે નિષ્ણાત છીએ.", about_p2:"AI, ક્લાઉડ કમ્પ્યુટિંગ જેવી આધુનિક ટેક્નોલૉજી દ્વારા ઉત્કૃષ્ટ વપરાશકર્તા અનુભવ આપવા અમારી ટીમ ટેક્નિકલ કૌશલ્ય અને સર્જનાત્મક વ્યૂહ ભેગા કરે છે.", about_p3:"તમે સ્ટાર્ટઅપ હો કે એન્ટરપ્રાઇઝ, નવી તકો ખોલવા, કામગીરી સુવ્યવસ્થિત કરવા અને આગળ રહેવા અમે મદદ કરીએ છીએ.", about_closing:"ચાલો સાથે મળીને ડિજિટલનું ભવિષ્ય ઘડીએ.", about_chart_label:"પ્રદર્શન વિશ્લેષણ",
+    srv_title:"ઓફર કરેલી સેવાઓ", srv_subtitle:"તમારા વ્યવસાયને ડિજિટલ દુનિયામાં વૃદ્ધિ પામવા અને સફળ થવામાં મદદ કરવા ડિજિટલ ઉકેલોની વ્યાપક શ્રેણી પ્રદાન કરીએ છીએ.",
+    srv1_title:"મોબાઇલ ઍપ ડેવલપમેન્ટ", srv1_desc:"Android અને iOS ઍપ્સ વિકસાવવામાં નિષ્ણાત, Kotlin, Swift અથવા Flutter — ઉત્તમ પ્રદર્શન સુનિશ્ચિત.",
+    srv2_title:"વેબ ડેવલપમેન્ટ", srv2_desc:"React, Node.js, Python, .NET નો ઉપયોગ કરી સ્કેલેબલ, સુરક્ષિત અને ઉચ્ચ-પ્રદર્શન વેબ ઉકેલ.",
+    srv3_title:"વેબ ડિઝાઇન", srv3_desc:"બધા ઉપકરણો પર સ્વચ્છ, આધુનિક અને વપરાશકર્તા-કેન્દ્રિત વેબસાઇટ્સ ડિઝાઇન.",
+    srv4_title:"સૉફ્ટવેર ડેવલપમેન્ટ", srv4_desc:"વ્યવસાયિક પડકારો ઉકેલવા ERP, CRM, ઇન્વેન્ટરી સિસ્ટમ્સ — ઍઝઇલ અભિગમ સાથે.",
+    srv5_title:"ગેમ ડેવલપમેન્ટ", srv5_desc:"Unity અને Unreal Engine સાથે 2D/3D ગેમ — ઇમર્સિવ ગેમપ્લે અને આકર્ષક વિઝ્યુઅલ.",
+    srv6_title:"ઍપ ડિઝાઇન", srv6_desc:"હાઇ-ફિડેલિટી UI મૉકઅપ, ઉઝર ફ્લો, ડિઝાઇન સિસ્ટમ — ઉત્કૃષ્ટ ઉપયોગ-ક્ષમતા.",
+    srv7_title:"વેબસાઇટ અને ઍપ જાળવણી", srv7_desc:"રિઅલ-ટાઇમ મૉનિટરિંગ, બગ ફિક્સ, અપડેટ, સિક્યુરિટી પૅચ — સ્થિર ચાલવા.",
+    srv8_title:"ડિજિટલ માર્કેટિંગ", srv8_desc:"SEO, સોશ્યલ મીડિયા, કૉન્ટેન્ટ, PPC — ડેટા-ચાલિત વ્યૂહ.",
+    srv9_title:"ડોમૈન અને હૉસ્ટિંગ સેવાઓ", srv9_desc:"SSL, CDN, DNS, બૅકઅપ — ઝડપી, સ્થિર ઑનલાઇન ઉપસ્થિતિ.",
+    prod_title:"અમારા ઉત્પાદનો", tag_mobile:"મોબાઇલ ઍપ", tag_web:"વેબ ઍપ્લિકેશન",
+    prod1_desc:"પૂજા પાથ — તમારી બધી આધ્યાત્મિક જરૂરિયાતો પૂરી કરવા ડિઝિટલ પ્લેટફૉર્મ.", prod2_desc:"ટૅક્સ ઉત્સવ — ટૅક્સ ગણતરી, આયોજન અને ફાઇલિંગ સરળ.", prod3_desc:"મૂળ CDC — ઑટિઝ્મ, ભાષ ઢીલ, બાળ વિકાસ.", prod4_desc:"શૉપ-લાઇનમાર્ટ — ઇ-કૉમર્સ ઉત્ક્રાંતિ.", prod5_desc:"દિશિકા ટૂર — ગ્રહ ઘૂમો, ઓનલાઇન બૂક.",
+    btn_playstore:"▶ Play Store પર મેળવો", btn_website:"🌐 વેબસાઇટ જુઓ", btn_knowmore:"ℹ વધુ જાણો",
+    contact_title:"સેવાઓ માટે વિનંતી", contact_subtitle:"અમે દરેક ઉદ્યોગમાં વૃદ્ધિ અને પરિવર્તન ચલાવ્યું છે. શરૂ કરવા થોડું અમારા વિશે જણાવો.",
+    form_fname:"પ્રથમ નામ", form_fname_ph:"પ્રથમ નામ", form_lname:"અટક", form_lname_ph:"અટક", form_email:"ઇ-મેઇલ", form_email_ph:"તમારો@ઇ-મેઇલ.com", form_phone:"સંપર્ક નંબર", form_phone_ph:"+91 00000 00000", form_region:"વિસ્તાર પસંદ કરો", form_region_ph:"વિસ્તાર પસંદ કરો", form_org:"સંસ્થા / કંપની", form_inquiry:"પૂછપરછ પ્રકાર", form_inquiry_ph:"પૂછપરછ પ્રકાર પસંદ કરો", form_general:"સામાન્ય પૂછપરછ", form_msg:"તમારો સંદેશ", form_msg_ph:"તમારા પ્રોજેક્ટ વિશે જણાવો...", form_privacy:"હું ગોપનીયતા નીતિ અને ડેટા પ્રક્રિયા માટે સંમત છું.", form_submit:"વિનંતી સબમિટ કરો",
+    career_title:"અમારી ટીમમાં જોડાઓ", career_subtitle:"ડિપવિઝન ઇન્ફોટેક નવીનતા અને સર્જનાત્મકતાને પ્રોત્સાહન આપે છે.", career_culture:"ડિપવિઝન એક એવી દુનિયા બનાવવાનો પ્રયાસ કરે છે જે સૉફ્ટવેર વ્યાવસ", career_slogan:"સાથે ઉઠીએ, સાથે જીતીએ.",
+    job1:"Kotlin ડેવલપર (Android)", job1_desc:"ઉચ્ચ-ગુણવત્તા Android ઍપ્સ માટે ઉત્સાહી Kotlin ડેવ.",
+    job2:"Flutter ડેવલપર (મોબ & વેબ)", job2_desc:"Flutter: iOS, Android, Web — ક્રૉસ-પ્લૅટ.",
+    job3:"NodeJS ડેવ", job3_desc:"Node.js/Express — MongoDB, REST, ક્લાઉડ.",
+    job4:"ઇન્ટર્નશિપ (અંતિમ વર્ષ)", job4_desc:"B.Tech/MCA — ડેવ, ડિઝ., ડિ. માર્ક.",
+    job5:"Python ડેવ", job5_desc:"Django/Flask, SQL/NoSQL.",
+    job6:".NET ડેવ", job6_desc:"ASP.NET, EF, SQL Server.",
+    job7:"C# ડેવ", job7_desc:"WPF/WinForms, OOP.",
+    job8:"React ડેવ", job8_desc:"React.js, TS, Redux.",
+    job9:"UI/UX ડિઝ.", job9_desc:"Figma/Adobe XD — ડ-સ.",
+    footer_nav:"નૅવ. & ઝડ. લિ.", footer_vision:"અમારી દ્રષ્ટિ", footer_about:"અમારા વિ.", footer_careers:"કારકિ.", footer_products:"ઉ.", footer_locations:"કૉ. સ્થ.", footer_hq:"HO – દિ.", footer_branch:"બ્ર. – કૉ.", footer_contact:"સ. & સ.", footer_contact_sub:"ઇ. ઉ. ?, જ.", footer_copy:"© 2026 ડિ. ઇ. — સ. અ. સ."
+  },
+
+  fr: {
+    nav_sub:"Infotech Solution Pvt. Ltd.", nav_home:"Accueil", nav_about:"À propos", nav_services:"Services", nav_products:"Produits", nav_career:"Carrière", nav_contact:"Contactez-nous", signin_btn:"Se connecter", back_to_site:"Retour au site",
+    signin_welcome:"Bon retour", signin_sub:"Connectez-vous à votre compte Dipvision", signin_email_label:"ADRESSE E-MAIL", signin_email_ph:"vous@exemple.com", signin_pass_label:"MOT DE PASSE", signin_pass_ph:"Entrez votre mot de passe", signin_remember:"Se souvenir de moi", signin_forgot:"Mot de passe oublié ?", signin_or:"ou continuer avec", signin_no_account:'Pas de compte ? <a href="#">Créer gratuitement</a>', signin_f1:"Sécurisé et crypté", signin_f2:"Accès instantané", signin_f3:"Tous vos projets",
+    hero_title:"Bienvenue chez Dipvision", hero_sub:"Nous créons des solutions numériques intelligentes, évolutives et sécurisées pour la croissance de votre entreprise.", hero_btn1:"Explorer nos services", hero_btn2:"Prendre contact",
+    about_title:"Qui sommes-nous", about_tagline:"Renforcer les idées avec la technologie, l'innovation et l'intégrité.", about_p1:"Chez Dipvision Infotech Solution Pvt. Ltd., nous sommes bien plus qu'une simple entreprise technologique — nous sommes vos partenaires en innovation numérique. Nous sommes spécialisés dans la création de logiciels, d'applications mobiles et de solutions numériques prêtes pour l'avenir.", about_p2:"Notre équipe associe expertise technique et stratégie créative pour offrir des expériences utilisateur intuitives propulsées par l'IA, le cloud et le développement multiplateforme.", about_p3:"Que vous soyez une startup ou une grande entreprise, nous vous aidons à saisir de nouvelles opportunités et à rester en tête.", about_closing:"Façonnons ensemble l'avenir du numérique.", about_chart_label:"Analyse des performances",
+    srv_title:"Services proposés", srv_subtitle:"Nous offrons une large gamme de solutions numériques pour aider votre entreprise à croître et à réussir dans le monde numérique.",
+    srv1_title:"Développement d'applications mobiles", srv1_desc:"Nous développons des applications Android et iOS sur mesure. Qu'il s'agisse d'une application native avec Kotlin ou Swift, ou d'une solution multiplateforme avec Flutter, nous garantissons des performances optimales.",
+    srv2_title:"Développement web", srv2_desc:"Nos services couvrent tout, des sites web à page unique aux applications full-stack complexes avec React, Node.js, Python et .NET.",
+    srv3_title:"Conception web", srv3_desc:"Nous concevons des sites web épurés, modernes et centrés sur l'utilisateur, fonctionnant parfaitement sur tous les appareils.",
+    srv4_title:"Développement logiciel", srv4_desc:"De la conception au déploiement, nous proposons des services de développement logiciel sur mesure qui résolvent les défis commerciaux réels.",
+    srv5_title:"Développement de jeux", srv5_desc:"Nous créons des jeux 2D et 3D captivants avec Unity et Unreal Engine pour mobile, web et desktop.",
+    srv6_title:"Conception d'applications", srv6_desc:"Nos services de conception d'applications se concentrent sur la création d'interfaces utilisateur intuitives et fonctionnelles.",
+    srv7_title:"Maintenance de sites et d'applications", srv7_desc:"Nous assurons la maintenance continue pour garantir la stabilité, la sécurité et les performances de vos actifs numériques.",
+    srv8_title:"Marketing numérique", srv8_desc:"Du SEO au marketing sur les réseaux sociaux, nous créons des stratégies basées sur les données pour booster votre visibilité.",
+    srv9_title:"Services de domaine et d'hébergement", srv9_desc:"Solutions complètes d'enregistrement de domaine et d'hébergement cloud, avec SSL, CDN, DNS et sauvegardes.",
+    prod_title:"Nos produits", tag_mobile:"APPLICATION MOBILE", tag_web:"APPLICATION WEB",
+    prod1_desc:"Puja Path est une plateforme numérique complète pour tous vos besoins spirituels. Rituels quotidiens, cérémonies, mantras — tout à portée de main.",
+    prod2_desc:"Tax Utsav est une application mobile intuitive pour simplifier le calcul et la déclaration d'impôts pour les particuliers et les entreprises.",
+    prod3_desc:"L'application Mool CDC est un centre de développement de l'enfant dédié au soutien des enfants atteints d'autisme et de retards de développement.",
+    prod4_desc:"Shoplinemart représente la prochaine génération d'applications e-commerce, offrant une expérience d'achat fluide et performante.",
+    prod5_desc:"Dishika Tour and Travels est votre passerelle numérique pour découvrir, planifier et réserver des voyages extraordinaires.",
+    btn_playstore:"▶ Obtenir sur Play Store", btn_website:"🌐 Visiter le site", btn_knowmore:"ℹ En savoir plus",
+    contact_title:"Demande de services", contact_subtitle:"Nous avons stimulé la croissance dans tous les secteurs. Parlez-nous de vous pour commencer.",
+    form_fname:"Prénom", form_fname_ph:"Prénom", form_lname:"Nom", form_lname_ph:"Nom de famille", form_email:"E-mail", form_email_ph:"votre@email.com", form_phone:"Numéro de contact", form_phone_ph:"+91 00000 00000", form_region:"Sélectionner la région", form_region_ph:"Choisir la région", form_org:"Organisation / Entreprise", form_inquiry:"Type de demande", form_inquiry_ph:"Choisir le type", form_general:"Demande générale", form_msg:"Votre message", form_msg_ph:"Parlez-nous de votre projet...", form_privacy:"J'accepte la politique de confidentialité et le traitement des données.", form_submit:"Soumettre la demande",
+    career_title:"Rejoignez notre équipe", career_subtitle:"Dipvision Infotech favorise l'innovation et la créativité. Nous accueillons des professionnels passionnés souhaitant évoluer dans le secteur IT.", career_culture:"Dipvision s'efforce de créer un monde dont rêve tout professionnel du logiciel — une entreprise animée par la passion et l'engagement envers l'excellence.", career_slogan:"ENSEMBLE NOUS NOUS ÉLEVONS, ENSEMBLE NOUS GAGNONS.",
+    job1:"Développeur Kotlin (Android)", job1_desc:"Nous recherchons un développeur Kotlin passionné pour créer des applications Android natives de haute qualité.",
+    job2:"Développeur Flutter (Mobile & Web)", job2_desc:"Créez des applications multiplateformes pour iOS, Android et Web avec Flutter.",
+    job3:"Développeur NodeJS", job3_desc:"Développez des services backend évolutifs avec Node.js et Express.",
+    job4:"Programmes de stage (étudiants en dernière année)", job4_desc:"Nous proposons des stages aux étudiants de dernière année B.Tech/MCA dans les domaines du développement, du design et du marketing digital.",
+    job5:"Développeur Python", job5_desc:"Développez des systèmes backend et des scripts d'automatisation avec Python.",
+    job6:"Développeur .NET", job6_desc:"Créez des applications d'entreprise avec .NET Core et C#.",
+    job7:"Développeur C#", job7_desc:"Travaillez sur des logiciels de bureau et d'entreprise avec C#.",
+    job8:"Développeur React", job8_desc:"Créez des applications web modernes et réactives avec React.js.",
+    job9:"Designer UI/UX", job9_desc:"Concevez de belles interfaces centrées sur l'utilisateur avec Figma ou Adobe XD.",
+    footer_nav:"Navigation & Liens rapides", footer_vision:"Notre vision", footer_about:"À notre sujet", footer_careers:"Carrières", footer_products:"Notre produit", footer_locations:"Localisations", footer_hq:"Siège – Delhi", footer_branch:"Bureau – Kolkata", footer_contact:"Contact & Collaboration", footer_contact_sub:"Vous souhaitez créer quelque chose d'impactant ? Connectons-nous.", footer_copy:"© 2026 DipVision Infotech. Tous droits réservés."
+  }
+};
+
+/* ══════════════════════════════════════════════
+   APPLY TRANSLATIONS
+══════════════════════════════════════════════ */
+let currentLang = 'en';
+
+function applyTranslations(lang) {
+  const t = translations[lang] || translations['en'];
+  // text content
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (t[key] !== undefined) {
+      el.innerHTML = t[key];
+    }
+  });
+  // placeholders
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    if (t[key] !== undefined) el.placeholder = t[key];
+  });
+  document.documentElement.lang = lang;
+}
+
+/* ── Network canvas ── */
+const canvas = document.getElementById('network');
+const ctx = canvas.getContext('2d');
+let W, H, dots = [];
+function resize() { W = canvas.width = canvas.offsetWidth; H = canvas.height = canvas.offsetHeight; }
+resize(); window.addEventListener('resize', resize);
+for (let i = 0; i < 80; i++) dots.push({ x: Math.random()*1600, y: Math.random()*900, vx: (Math.random()-0.5)*0.4, vy: (Math.random()-0.5)*0.4, r: Math.random()*2+1 });
+function draw() {
+  ctx.clearRect(0,0,W,H);
+  dots.forEach(d => {
+    d.x += d.vx; d.y += d.vy;
+    if (d.x<0||d.x>W) d.vx*=-1; if (d.y<0||d.y>H) d.vy*=-1;
+    ctx.beginPath(); ctx.arc(d.x,d.y,d.r,0,Math.PI*2);
+    ctx.fillStyle='rgba(6,182,212,0.8)'; ctx.fill();
+  });
+  for (let i=0;i<dots.length;i++) for (let j=i+1;j<dots.length;j++) {
+    const dx=dots[i].x-dots[j].x, dy=dots[i].y-dots[j].y, dist=Math.sqrt(dx*dx+dy*dy);
+    if (dist<140) { ctx.beginPath(); ctx.moveTo(dots[i].x,dots[i].y); ctx.lineTo(dots[j].x,dots[j].y); ctx.strokeStyle=`rgba(6,182,212,${0.3*(1-dist/140)})`; ctx.lineWidth=0.8; ctx.stroke(); }
+  }
+  requestAnimationFrame(draw);
+}
+draw();
+
+/* ── Mobile nav ── */
+function toggleNav() { document.getElementById('navLinks').classList.toggle('open'); }
+document.querySelectorAll('#navLinks a').forEach(a => a.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open')));
+
+/* ── Language ── */
+function toggleLang() {
+  document.getElementById('langBtn').classList.toggle('open');
+  document.getElementById('langDropdown').classList.toggle('open');
+}
+function selectLang(lang, label) {
+  currentLang = lang;
+  document.getElementById('langLabel').textContent = label;
+  document.querySelectorAll('.lang-item').forEach(i => i.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  document.getElementById('langBtn').classList.remove('open');
+  document.getElementById('langDropdown').classList.remove('open');
+  applyTranslations(lang);
+}
+document.addEventListener('click', e => {
+  if (!e.target.closest('.nav-right')) {
+    document.getElementById('langBtn').classList.remove('open');
+    document.getElementById('langDropdown').classList.remove('open');
+  }
+});
+
+/* ════════════════════════════════════════════════════════
+   JWT AUTH SYSTEM — Login · Logout · Access Token · Refresh Token
+   ════════════════════════════════════════════════════════
+
+   FLOW:
+   1. User logs in  → server (simulated) returns accessToken (15 min) + refreshToken (7 days)
+   2. accessToken stored in memory (JS variable) — never in localStorage
+   3. refreshToken stored in sessionStorage (httpOnly cookie in real backend)
+   4. Every API call uses accessToken in Authorization header
+   5. If accessToken expires → silently call refreshToken endpoint to get new one
+   6. If refreshToken also expires → force logout
+   7. Logout → clears both tokens + updates UI
+   ════════════════════════════════════════════════════════ */
+
+  /* ── Token store ─────────────────────────────────────── */
+  const Auth = (function () {
+
+    /* In-memory access token (not persisted — safest against XSS) */
+    let _accessToken  = null;
+    let _accessExpiry = null;   /* Date object */
+
+    /* Refresh token goes in sessionStorage (cleared on tab close) */
+    const RT_KEY = 'dip_rt';
+
+    /* ── Simulated JWT helpers ── */
+    function _makeJWT(payload, secret, expiresInMs) {
+      /* Real JWT signing needs a backend. We simulate the structure here. */
+      const header  = btoa(JSON.stringify({ alg: 'HS256', typ: 'JWT' }));
+      const exp     = Math.floor((Date.now() + expiresInMs) / 1000);
+      const body    = btoa(JSON.stringify({ ...payload, exp, iat: Math.floor(Date.now()/1000) }));
+      const sig     = btoa(secret + '.' + exp);           /* NOT real HMAC – simulation only */
+      return `${header}.${body}.${sig}`;
+    }
+
+    function _decodeJWT(token) {
+      try {
+        const parts = token.split('.');
+        if (parts.length !== 3) return null;
+        return JSON.parse(atob(parts[1]));
+      } catch { return null; }
+    }
+
+    function _isExpired(token) {
+      const payload = _decodeJWT(token);
+      if (!payload || !payload.exp) return true;
+      return Date.now() / 1000 > payload.exp;
+    }
+
+    /* ── Mock "server" calls ── */
+    const MOCK_USERS = [
+      { email: 'admin@dipvision.com', phone: '+919876543210', password: 'Admin@123',
+        name: 'Admin User', role: 'admin' },
+      { email: 'user@dipvision.com',  phone: '+919999999999', password: 'User@1234',
+        name: 'Demo User',  role: 'user'  }
+    ];
+
+    function _mockLogin(identifier, password) {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          const user = MOCK_USERS.find(u =>
+            (u.email === identifier || u.phone === identifier) && u.password === password
+          );
+          if (!user) { reject(new Error('Invalid credentials. Try admin@dipvision.com / Admin@123')); return; }
+
+          const payload = { sub: user.email, name: user.name, role: user.role };
+          const accessToken  = _makeJWT(payload, 'dip-access-secret',  15 * 60 * 1000);   /* 15 min */
+          const refreshToken = _makeJWT(payload, 'dip-refresh-secret', 7 * 24 * 60 * 60 * 1000); /* 7 days */
+          resolve({ accessToken, refreshToken, user: { name: user.name, email: user.email, role: user.role } });
+        }, 800); /* simulate network delay */
+      });
+    }
+
+    function _mockRefresh(refreshToken) {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          if (!refreshToken || _isExpired(refreshToken)) {
+            reject(new Error('Refresh token expired. Please login again.'));
+            return;
+          }
+          const payload = _decodeJWT(refreshToken);
+          const newAccess = _makeJWT(
+            { sub: payload.sub, name: payload.name, role: payload.role },
+            'dip-access-secret', 15 * 60 * 1000
+          );
+          resolve({ accessToken: newAccess });
+        }, 400);
+      });
+    }
+
+    /* ── Auto-refresh timer ── */
+    let _refreshTimer = null;
+
+    function _scheduleRefresh(expiryMs) {
+      clearTimeout(_refreshTimer);
+      /* Refresh 60 seconds before expiry */
+      const delay = Math.max(expiryMs - 60 * 1000, 5000);
+      _refreshTimer = setTimeout(async () => {
+        console.log('[Auth] Auto-refreshing access token…');
+        try { await refresh(); }
+        catch (e) { console.warn('[Auth] Silent refresh failed:', e.message); logout(); }
+      }, delay);
+    }
+
+    /* ── Public API ── */
+    async function login(identifier, password) {
+      const data = await _mockLogin(identifier, password);
+      _accessToken  = data.accessToken;
+      _accessExpiry = new Date(_decodeJWT(data.accessToken).exp * 1000);
+      sessionStorage.setItem(RT_KEY, data.refreshToken);
+
+      /* Schedule auto-refresh */
+      _scheduleRefresh(_accessExpiry - Date.now());
+
+      _updateUI(data.user);
+      console.log('[Auth] Login successful. Access token expires:', _accessExpiry.toLocaleTimeString());
+      return data.user;
+    }
+
+    async function refresh() {
+      const rt = sessionStorage.getItem(RT_KEY);
+      if (!rt) throw new Error('No refresh token found');
+      const data = await _mockRefresh(rt);
+      _accessToken  = data.accessToken;
+      _accessExpiry = new Date(_decodeJWT(data.accessToken).exp * 1000);
+      _scheduleRefresh(_accessExpiry - Date.now());
+      console.log('[Auth] Token refreshed. New expiry:', _accessExpiry.toLocaleTimeString());
+      return _accessToken;
+    }
+
+    function logout() {
+      _accessToken  = null;
+      _accessExpiry = null;
+      clearTimeout(_refreshTimer);
+      sessionStorage.removeItem(RT_KEY);
+      _updateUI(null);
+      console.log('[Auth] Logged out. All tokens cleared.');
+    }
+
+    /* Returns a valid access token (refreshes silently if needed) */
+    async function getAccessToken() {
+      if (!_accessToken) return null;
+      if (_accessExpiry && Date.now() > _accessExpiry.getTime() - 5000) {
+        /* Within 5 sec of expiry — refresh now */
+        try { await refresh(); }
+        catch { logout(); return null; }
+      }
+      return _accessToken;
+    }
+
+    function isLoggedIn() {
+      return !!_accessToken && !_isExpired(_accessToken);
+    }
+
+    function getUser() {
+      if (!_accessToken) return null;
+      return _decodeJWT(_accessToken);
+    }
+
+    function getTokenInfo() {
+      if (!_accessToken) return null;
+      const p = _decodeJWT(_accessToken);
+      const rt = sessionStorage.getItem(RT_KEY);
+      const rp = rt ? _decodeJWT(rt) : null;
+      return {
+        accessToken:  _accessToken,
+        accessExpiry: new Date(p.exp * 1000).toLocaleString(),
+        refreshToken: rt,
+        refreshExpiry: rp ? new Date(rp.exp * 1000).toLocaleString() : 'N/A',
+        user: { name: p.name, email: p.sub, role: p.role }
+      };
+    }
+
+    /* ── UI sync ── */
+    function _updateUI(user) {
+      const btn = document.getElementById('navSigninBtn');
+      if (!btn) return;
+      if (user) {
+        /* Show avatar + name + logout */
+        btn.innerHTML = `
+          <span class="nav-user-avatar">${user.name.charAt(0).toUpperCase()}</span>
+          <span class="nav-user-name">${user.name.split(' ')[0]}</span>
+          <span class="nav-user-arrow">▾</span>`;
+        btn.onclick = null;
+        btn.classList.add('logged-in');
+        /* Dropdown on click */
+        btn.onclick = (e) => { e.stopPropagation(); _toggleUserMenu(user); };
+      } else {
+        btn.innerHTML = 'Sign In';
+        btn.classList.remove('logged-in');
+        btn.onclick = openSigninPage;
+        _closeUserMenu();
+      }
+    }
+
+    function _toggleUserMenu(user) {
+      let menu = document.getElementById('userMenu');
+      if (menu) { _closeUserMenu(); return; }
+      const info = getTokenInfo();
+      menu = document.createElement('div');
+      menu.id = 'userMenu';
+      menu.className = 'user-menu';
+      menu.innerHTML = `
+        <div class="user-menu-header">
+          <div class="user-menu-avatar">${user.name.charAt(0).toUpperCase()}</div>
+          <div>
+            <div class="user-menu-name">${user.name}</div>
+            <div class="user-menu-email">${user.email}</div>
+            <div class="user-menu-role">${info.user.role.toUpperCase()}</div>
+          </div>
+        </div>
+        <div class="user-menu-tokens">
+          <div class="token-row">
+            <span class="token-label">🔑 Access Token</span>
+            <span class="token-badge token-active">ACTIVE</span>
+          </div>
+          <div class="token-exp">Expires: ${info.accessExpiry}</div>
+          <div class="token-preview">${info.accessToken.substring(0,40)}…</div>
+          <div class="token-row" style="margin-top:10px;">
+            <span class="token-label">🔄 Refresh Token</span>
+            <span class="token-badge token-refresh">7 DAYS</span>
+          </div>
+          <div class="token-exp">Expires: ${info.refreshExpiry}</div>
+          <div class="token-preview">${(info.refreshToken||'').substring(0,40)}…</div>
+        </div>
+        <div class="user-menu-actions">
+          <button class="user-menu-btn" onclick="Auth.showTokenInfo()">🔍 Token Details</button>
+          <button class="user-menu-btn" onclick="Auth.manualRefresh()">🔄 Refresh Token</button>
+          <button class="user-menu-btn logout-btn" onclick="Auth.logout(); _closeUserMenu && _closeUserMenu()">⏏ Logout</button>
+        </div>`;
+      document.querySelector('.nav-right').appendChild(menu);
+      setTimeout(() => document.addEventListener('click', _outsideMenuClose), 50);
+    }
+
+    function _outsideMenuClose(e) {
+      if (!e.target.closest('#userMenu') && !e.target.closest('#navSigninBtn')) {
+        _closeUserMenu();
+      }
+    }
+
+    function _closeUserMenu() {
+      const m = document.getElementById('userMenu');
+      if (m) m.remove();
+      document.removeEventListener('click', _outsideMenuClose);
+    }
+
+    async function manualRefresh() {
+      try {
+        await refresh();
+        const info = getTokenInfo();
+        showToast('✅ Token refreshed! New expiry: ' + info.accessExpiry, 'success');
+        _closeUserMenu();
+        setTimeout(() => _toggleUserMenu(getUser()), 100);
+      } catch(e) {
+        showToast('❌ Refresh failed: ' + e.message, 'error');
+      }
+    }
+
+    function showTokenInfo() {
+      const info = getTokenInfo();
+      if (!info) { showToast('Not logged in', 'error'); return; }
+      const modal = document.createElement('div');
+      modal.className = 'token-modal-overlay';
+      modal.innerHTML = `
+        <div class="token-modal">
+          <div class="token-modal-header">
+            <h3>🔐 JWT Token Details</h3>
+            <button onclick="this.closest('.token-modal-overlay').remove()">✕</button>
+          </div>
+          <div class="token-modal-body">
+            <div class="token-section">
+              <div class="ts-title">👤 User Info</div>
+              <div class="ts-row"><span>Name</span><code>${info.user.name}</code></div>
+              <div class="ts-row"><span>Email</span><code>${info.user.email}</code></div>
+              <div class="ts-row"><span>Role</span><code>${info.user.role}</code></div>
+            </div>
+            <div class="token-section">
+              <div class="ts-title">🔑 Access Token <span class="token-badge token-active">ACTIVE · 15 MIN</span></div>
+              <div class="ts-row"><span>Expires</span><code>${info.accessExpiry}</code></div>
+              <div class="ts-code">${info.accessToken}</div>
+            </div>
+            <div class="token-section">
+              <div class="ts-title">🔄 Refresh Token <span class="token-badge token-refresh">7 DAYS</span></div>
+              <div class="ts-row"><span>Expires</span><code>${info.refreshExpiry}</code></div>
+              <div class="ts-code">${info.refreshToken || 'N/A'}</div>
+            </div>
+            <div class="token-section">
+              <div class="ts-title">📡 How to use in API calls</div>
+              <div class="ts-code">Authorization: Bearer ${info.accessToken.substring(0,30)}…</div>
+            </div>
+          </div>
+          <div class="token-modal-footer">
+            <button class="btn-auth-submit" style="width:auto;padding:10px 24px;" onclick="Auth.manualRefresh();this.closest('.token-modal-overlay').remove()">🔄 Refresh Now</button>
+            <button class="btn-auth-submit" style="width:auto;padding:10px 24px;background:#ef4444;" onclick="Auth.logout();this.closest('.token-modal-overlay').remove()">⏏ Logout</button>
+          </div>
+        </div>`;
+      document.body.appendChild(modal);
+    }
+
+    return { login, logout, refresh, getAccessToken, isLoggedIn, getUser,
+             getTokenInfo, manualRefresh, showTokenInfo };
+  })();
+
+  /* ── Toast notifications ── */
+  function showToast(msg, type = 'success') {
+    const t = document.createElement('div');
+    t.className = 'auth-toast auth-toast-' + type;
+    t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(() => t.classList.add('show'), 10);
+    setTimeout(() => { t.classList.remove('show'); setTimeout(() => t.remove(), 400); }, 3500);
+  }
+
+  /* ── Auth Pages open/close ── */
+  function openSigninPage()  { document.getElementById('signinPage').classList.add('open');   document.body.style.overflow = 'hidden'; }
+  function closeSigninPage() { document.getElementById('signinPage').classList.remove('open'); document.body.style.overflow = ''; }
+  function openRegisterPage() { closeSigninPage(); document.getElementById('registerPage').classList.add('open'); document.body.style.overflow = 'hidden'; }
+  function closeRegisterPage() { document.getElementById('registerPage').classList.remove('open'); document.body.style.overflow = ''; }
+
+  function togglePass(id, btn) {
+    const inp = document.getElementById(id);
+    if (inp.type === 'password') { inp.type = 'text'; btn.textContent = '🙈'; }
+    else { inp.type = 'password'; btn.textContent = '👁'; }
+  }
+
+  /* ── Login handler ── */
+  async function doPageSignin() {
+    const identifier = document.getElementById('pageSigninEmail').value.trim();
+    const pass       = document.getElementById('pageSigninPass').value.trim();
+    if (!identifier || !pass) { showToast('Please enter your email and password.', 'error'); return; }
+
+    const btn = document.querySelector('#signinPage .btn-auth-submit');
+    btn.textContent = 'Signing in…';
+    btn.disabled = true;
+
+    try {
+      const user = await Auth.login(identifier, pass);
+      closeSigninPage();
+      showToast(`✅ Welcome back, ${user.name}! Logged in successfully.`, 'success');
+      document.getElementById('pageSigninEmail').value = '';
+      document.getElementById('pageSigninPass').value  = '';
+    } catch (e) {
+      showToast('❌ ' + e.message, 'error');
+    } finally {
+      btn.textContent = 'Sign In →';
+      btn.disabled = false;
+    }
+  }
+
+  /* ── Register handler ── */
+  async function doRegister() {
+    const fname  = document.getElementById('reg_fname').value.trim();
+    const lname  = document.getElementById('reg_lname').value.trim();
+    const email  = document.getElementById('reg_email').value.trim();
+    const phone  = document.getElementById('reg_phone').value.trim();
+    const pass   = document.getElementById('reg_pass').value;
+    const cpass  = document.getElementById('reg_cpass').value;
+    const agreed = document.getElementById('reg_agree').checked;
+
+    if (!fname || !lname || !email || !pass || !cpass) { showToast('Please fill in all fields.', 'error'); return; }
+    if (pass.length < 8)  { showToast('Password must be at least 8 characters.', 'error'); return; }
+    if (pass !== cpass)   { showToast('Passwords do not match.', 'error'); return; }
+    if (!agreed)          { showToast('Please agree to the Terms & Privacy Policy.', 'error'); return; }
+
+    const btn = document.querySelector('#registerPage .btn-auth-submit');
+    btn.textContent = 'Creating account…';
+    btn.disabled = true;
+
+    /* Notify Dipvision by email */
+    const subject = encodeURIComponent('New Registration – ' + fname + ' ' + lname);
+    const body    = encodeURIComponent('Name: '+fname+' '+lname+'\nEmail: '+email+'\nPhone: '+(phone||'N/A'));
+    window.location.href = 'mailto:infodipvision@gmail.com?subject='+subject+'&body='+body;
+
+    setTimeout(() => {
+      btn.textContent = 'Continue →';
+      btn.disabled = false;
+      showToast('🎉 Account created! Welcome, ' + fname + '!', 'success');
+      closeRegisterPage();
+    }, 600);
+  }
+
+/* ── Job accordion ── */
+function toggleJob(el) {
+  const detail = el.nextElementSibling;
+  const isOpen = el.classList.contains('open');
+  document.querySelectorAll('.job-item.open').forEach(j => { j.classList.remove('open'); j.nextElementSibling.classList.remove('open'); });
+  if (!isOpen) { el.classList.add('open'); detail.classList.add('open'); }
+}
+
+/* ── Scroll reveal ── */
+const observer = new IntersectionObserver(entries => { entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }); }, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+/* ── Form submit → send email ── */
+function handleSubmit() {
+  if (!document.getElementById('privacy').checked) { alert('Please agree to the Privacy Policy.'); return; }
+
+  const fname    = document.getElementById('cf_fname').value.trim();
+  const lname    = document.getElementById('cf_lname').value.trim();
+  const email    = document.getElementById('cf_email').value.trim();
+  const phone    = document.getElementById('cf_phone').value.trim();
+  const region   = document.getElementById('cf_region').value.trim();
+  const org      = document.getElementById('cf_org').value.trim();
+  const inquiry  = document.getElementById('cf_inquiry').value.trim();
+  const msg      = document.getElementById('cf_msg').value.trim();
+
+  if (!fname || !lname || !email || !region || !inquiry || !msg) {
+    alert('Please fill in all required fields (*).');
+    return;
+  }
+
+  const subject = encodeURIComponent('Service Request from ' + fname + ' ' + lname + ' – ' + inquiry);
+  const body = encodeURIComponent(
+    'Name: ' + fname + ' ' + lname + '\n' +
+    'Email: ' + email + '\n' +
+    'Phone: ' + (phone || 'N/A') + '\n' +
+    'Region: ' + region + '\n' +
+    'Organization: ' + (org || 'N/A') + '\n' +
+    'Inquiry Type: ' + inquiry + '\n\n' +
+    'Message:\n' + msg
+  );
+
+  window.location.href = 'mailto:infodipvision@gmail.com?subject=' + subject + '&body=' + body;
+
+  setTimeout(function() {
+    alert('Thank you! Your email client has opened to send your request to infodipvision@gmail.com 🚀');
+  }, 500);
+}
+
+</script>
+</body>
+</html>
